@@ -92,72 +92,296 @@
     </section>
 
 
-    <section class="trending-section py-5 text-center">
-        <h2 class="section-title mb-4">Çok Konuşulanlar</h2>
-        <div class="trending-container px-3">
+    <!-- HTML -->
+    <section class="trending-section py-5 text-center position-relative overflow-hidden">
+        <h2 class="section-title mb-4">
+            <span class="title">Çok Konuşulanlar</span>
+        </h2>
+        <div class="background-shapes">
+            <div class="bg-circle bg-purple"></div>
+            <div class="bg-circle bg-green"></div>
+        </div>
+        <div class="trending-container d-flex align-items-center justify-content-center position-relative">
             <button class="slide-btn left" onclick="slideLeft()">&#10094;</button>
-            <div class="trending-wrapper" id="trendingWrapper">
-                <!-- Card 1 -->
-                <div class="trending-card white-card">
-                    <img src="profile1.jpg" alt="User" class="profile-img">
-                    <div class="card-content text-start">
-                        <strong>Adem</strong>
-                        <span class="views">👁️ 453</span>
-                        <p>Saraç Store Siteye Erişim Sağlanmıyor!</p>
-                        <a href="#" class="category">🔗 Saraç Store</a>
-                    </div>
-                    <span class="comments text-start">💬 14 Yorum</span>
-                </div>
 
-                <!-- Card 2 -->
-                <div class="trending-card purple-card">
-                    <img src="profile2.jpg" alt="User" class="profile-img">
-                    <div class="card-content text-start">
-                        <strong>Esra</strong>
-                        <span class="views">👁️ 797</span>
-                        <p>Garanti Bankası'nın Hesabıma Bilgi Vermeden Bloke Koyması</p>
-                        <a href="#" class="category text-white">🔗 Garanti BBVA</a>
-                    </div>
-                    <span class="comments">💬 12 Yorum</span>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="trending-card purple-card">
-                    <img src="profile2.jpg" alt="User" class="profile-img">
-                    <div class="card-content text-start">
-                        <strong>Esra</strong>
-                        <span class="views">👁️ 797</span>
-                        <p>Garanti Bankası'nın Hesabıma Bilgi Vermeden Bloke Koyması</p>
-                        <a href="#" class="category text-white">🔗 Garanti BBVA</a>
-                    </div>
-                    <span class="comments">💬 12 Yorum</span>
-                </div>
-                <div class="trending-card purple-card">
-                    <img src="profile2.jpg" alt="User" class="profile-img">
-                    <div class="card-content text-start">
-                        <strong>Esra</strong>
-                        <span class="views">👁️ 797</span>
-                        <p>Garanti Bankası'nın Hesabıma Bilgi Vermeden Bloke Koyması</p>
-                        <a href="#" class="category text-white">🔗 Garanti BBVA</a>
-                    </div>
-                    <span class="comments">💬 12 Yorum</span>
-                </div>
-
-
-                <div class="trending-card purple-card">
-                    <img src="profile2.jpg" alt="User" class="profile-img">
-                    <div class="card-content text-start">
-                        <strong>Esra</strong>
-                        <span class="views">👁️ 797</span>
-                        <p>Garanti Bankası'nın Hesabıma Bilgi Vermeden Bloke Koyması</p>
-                        <a href="#" class="category text-white">🔗 Garanti BBVA</a>
-                    </div>
-                    <span class="comments">💬 12 Yorum</span>
+            <div class="trending-viewport">
+                <div class="trending-wrapper d-flex" id="trendingWrapper">
+                    @foreach($complaints as $complaint)
+                        <div class="trending-card {{ $loop->iteration % 2 === 0 ? 'purple-card text-white' : 'white-card' }}">
+                            @if(isset($complaint->user->profile_image))
+                                <img src="{{ asset('storage/' . $complaint->user->profile_image) }}" alt="User" class="profile-img">
+                            @else
+                                <div class="profile-circle {{ $loop->iteration % 2 === 0 ? 'bg-orange' : 'bg-purple' }} text-white">
+                                    {{ strtoupper(mb_substr($complaint->user->name ?? 'U', 0, 1)) }}
+                                </div>
+                            @endif
+                            <div class="card-content text-start">
+                                <strong>{{ $complaint->user->name ?? 'Anonim' }}</strong>
+                                <span class="views">👁️5</span>
+                                <p>{{ \Illuminate\Support\Str::limit($complaint->title, 80) }}</p>
+                                <a href="#" class="category {{ $loop->iteration % 2 === 0 ? 'text-white' : '' }}">
+                                    🔗 {{ $complaint->company->name ?? 'Bilinmeyen Şirket' }}
+                                </a>
+                            </div>
+                            <span class="comments {{ $loop->iteration % 2 === 0 ? '' : 'text-success' }}">
+              💬 5 Yorum
+            </span>
+                        </div>
+                    @endforeach
                 </div>
             </div>
+
             <button class="slide-btn right" onclick="slideRight()">&#10095;</button>
         </div>
     </section>
+
+    <!-- CSS -->
+    <style>
+        .trending-section {
+            background-color: #f5f6fa;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            position: relative;
+            z-index: 2;
+        }
+
+        .highlighted-title {
+            background-color: #b7d4fb;
+            padding: 0 0.5rem;
+        }
+
+        .background-shapes {
+            position: absolute;
+            right: 0;
+            top: 50px;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none; /* Arka plan tıklanamaz olacak */
+        }
+        /* Mobil uyum için eklenenler */
+        @media (max-width: 768px) {
+            .trending-viewport {
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch;
+                scroll-snap-type: x mandatory;
+            }
+
+            .trending-wrapper {
+                width: max-content;
+            }
+
+            .trending-card {
+                scroll-snap-align: start;
+            }
+
+            .slide-btn {
+                display: none; /* Mobilde butonlar gizlenir */
+            }
+
+            .trending-container {
+                padding: 0.5rem;
+            }
+        }
+
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .bg-purple {
+            background-color: #6c63ff;
+            width: 700px;
+            height: 700px;
+            top: 0;
+            right: 0;
+            border-top-left-radius: 200px;
+        }
+
+        .bg-green {
+            background-color: #2cd49c;
+            width: 400px;
+            height: 400px;
+            bottom: -50px;
+            left: 40%;
+            opacity: 0.8;
+        }
+
+        .trending-container {
+            position: relative;
+            z-index: 1;
+            gap: 1rem;
+            padding: 1rem;
+            overflow: hidden;
+        }
+
+        .trending-viewport {
+            overflow: hidden;
+            width: 100%;
+            max-width: 740px;
+        }
+
+        .trending-wrapper {
+            display: flex;
+            gap: 1rem;
+            transition: transform 0.5s ease;
+        }
+
+        .trending-card {
+            min-width: 350px;
+            max-width: 350px;
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .trending-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .white-card {
+            background-color: #fff;
+        }
+
+        .purple-card {
+            background-color: #6c63ff;
+        }
+
+        .profile-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .bg-orange {
+            background-color: #ff6f00;
+        }
+
+        .card-content {
+            margin-bottom: 1rem;
+        }
+
+        .comments {
+            font-size: 0.9rem;
+        }
+
+        .slide-btn {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            z-index: 5; /* Butonlar artık en önde olacak */
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-btn.left {
+            left: 0.5rem;
+        }
+
+        .slide-btn.right {
+            right: 0.5rem;
+        }
+
+        #trendingWrapper {
+            display: flex;
+            overflow: hidden;
+            transition: transform 0.5s ease;
+        }
+
+        #trendingWrapper > .card {
+            min-width: 100%;
+            flex-shrink: 0;
+            margin-right: 20px;
+        }
+
+
+        /* Responsive düzenleme */
+        @media (max-width: 768px) {
+            .trending-card {
+                min-width: 80vw;
+                max-width: 80vw;
+            }
+        }
+
+    </style>
+
+    <!-- JavaScript -->
+    <script>
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+
+        function slideTo(index) {
+            if (isMobile()) return; // Mobilde elle kaydırılacak
+            const maxIndex = wrapper.children.length - 2;
+            currentIndex = Math.max(0, Math.min(index, maxIndex));
+            wrapper.style.transform = translateX(-${currentIndex * cardWidth}px);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const wrapper = document.getElementById("trendingWrapper");
+            if (!wrapper) return;
+
+            const cards = wrapper.children;
+            let index = 0;
+
+            function updateSlide() {
+                const card = cards[0];
+                if (!card) return;
+                const cardWidth = card.offsetWidth + 20; // 20px margin
+                wrapper.style.transform = translateX(-${index * cardWidth}px);
+            }
+
+            function slideLeft() {
+                if (index > 0) {
+                    index--;
+                    updateSlide();
+                }
+            }
+
+            function slideRight() {
+                if (index < cards.length - 1) {
+                    index++;
+                    updateSlide();
+                } else {
+                    index = 0;
+                    updateSlide();
+                }
+            }
+
+            const leftBtn = document.querySelector(".slide-btn.left");
+            const rightBtn = document.querySelector(".slide-btn.right");
+
+            if (leftBtn && rightBtn) {
+                leftBtn.addEventListener("click", slideLeft);
+                rightBtn.addEventListener("click", slideRight);
+            }
+
+            setInterval(slideRight, 3500);
+        });
+    </script>
+
+
 
     <section class="py-5 position-relative overflow-hidden">
         <div class="container">
@@ -227,6 +451,21 @@ FirmaCv kuruluş amacı olarak lorem ipsum dolar sit amet
                 left: 10%;
             }
         </style>
+    </section>
+
+    <section class="py-5 text-center" style="background-color: #695ce6; color: white;">
+        <div class="container">
+            <h2 class="display-5 fw-bold mb-4 ">Tüketici deneyimi, sizin markanız</h2>
+            <br>
+            <p class="lead mb-4">
+                Olumsuz alışveriş deneyimi yaşayan müşteriler, bu süreci 250 kişiyle paylaşıyor. <br>
+                Müşteri odaklı kültürün parçası olmak ve mutlu müşteriler yaratmak için:
+            </p>
+            <br>
+            <a href="/kurumsal-uyelik" class="btn btn-light btn-lg rounded-pill fw-bold">
+                Birlikte Çalışalım
+            </a>
+        </div>
     </section>
 
     <style>
@@ -411,4 +650,20 @@ FirmaCv kuruluş amacı olarak lorem ipsum dolar sit amet
             wrapper.style.transform = `translateX(-${scrollAmount}px)`;
         }
     </script>
+
+    <!-- HTML KARTLAR... -->
+
+    <!-- En sonda script -->
+    <script>
+        const wrapper = document.getElementById("trendingWrapper");
+
+        document.getElementById("slideRightBtn").onclick = function () {
+            wrapper.scrollLeft += wrapper.scrollWidth;
+        };
+
+        document.getElementById("slideLeftBtn").onclick = function () {
+            wrapper.scrollLeft -= wrapper.scrollWidth;
+        };
+    </script>
+
 @endsection
