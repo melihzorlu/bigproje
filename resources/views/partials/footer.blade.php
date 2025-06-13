@@ -6,11 +6,11 @@
                 <a href="/"> <img src="{{ asset('images/ornlogofooter.png') }}" alt="Adilisler Logo" style="height: 45px;"></a>            </div>
             <div class="col-12 col-md-9 text-md-end text-start">
                 <ul class="list-unstyled d-flex justify-content-start justify-content-md-end flex-wrap">
-                    <li class="ms-3"><a href="#"><i class="fa-brands fa-facebook" style="color: #7b7a85; font-size: 30px;"></i></a></li>
-                    <li class="ms-3"><a href="#"><i class="fa-brands fa-instagram" style="color: #7b7a85; font-size: 34px;"></i></a></li>
-                    <li class="ms-3"><a href="#"><i class="fa-brands fa-youtube" style="color: #7b7a85; font-size: 34px;"></i></a></li>
-                    <li class="ms-3"><a href="#"><i class="fa-brands fa-linkedin" style="color: #7b7a85; font-size: 34px;"></i></a></li>
-                    <li class="ms-3"><a href="#"><i class="fa-brands fa-twitter" style="color: #7b7a85; font-size: 34px;"></i></a></li>
+                    <li class="ms-3"><a href="https://www.linkedin.com/in/firmacv"><i class="fa-brands fa-linkedin" style="color: #7b7a85; font-size: 34px;"></i></a></li>
+                    <li class="ms-3"><a href="https://www.youtube.com/@firmacv"><i class="fa-brands fa-youtube" style="color: #7b7a85; font-size: 34px;"></i></a></li>
+                    <li class="ms-3"><a href="https://www.instagram.com/firma.cv"><i class="fa-brands fa-instagram" style="color: #7b7a85; font-size: 34px;"></i></a></li>
+                    <li class="ms-3"><a href="https://www.tiktok.com/@firmacv"><i class="fa-brands fa-tiktok" style="color: #7b7a85; font-size: 30px;"></i></a></li>
+                    <li class="ms-3"><a href="#"><i class="fa-brands fa-x-twitter" style="color: #7b7a85; font-size: 34px;"></i></a></li>
                 </ul>
             </div>
         </div>
