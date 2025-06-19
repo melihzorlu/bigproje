@@ -20,7 +20,7 @@
                     <form  style="padding-right: 30px; !important;" class="mt-4 d-flex justify-content-center" style="margin-bottom: 1.5rem !important;" id="banner-search-form">
                         <div class="input-group shadow-sm" style="border-radius: 50px; overflow: hidden; max-width: 700px; width: 100%;">
                             <span class="input-group-text bg-white border-0"><i class="bi bi-search text-muted"></i></span>
-                            <input type="text" class="form-control border-0" placeholder="Firma, sektör, şirket ara" aria-label="Search" style="border-radius: 0;">
+                            <input type="text" class="form-control border-0" placeholder="Firma, sektör ara" aria-label="Search" style="border-radius: 0;">
                             <button class="btn px-4 text-white" type="submit" style=" background-color: #00b46c; border-radius: 0;">Ara</button>
                         </div>
                     </form>
