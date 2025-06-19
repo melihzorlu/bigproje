@@ -9,7 +9,7 @@
 
                 <div class="col-lg-6 pe-0">
                     <div class="position-relative">
-                        <img style="z-index: 100; top: 30px;" src="{{ asset('images/anasayfa-section-1.png') }}" class="img-fluid w-100" alt="section-1">
+                        <img style="z-index: 100; top: 30px;" src="{{ asset('images/anasayfa-section-1.png') }}" class="img-fluid w-100" alt="home-section">
                     </div>
                 </div>
                 <div style="margin-top:1.5rem !important; " class="col-lg-6 text-lg-start ps-5">
@@ -71,6 +71,7 @@
         <div class="complaint-row right-scroll">
             <div class="complaint-track">
                 @foreach ($bottomComplaints as $complaint)
+                    <a href="{{ route('complaint.show', $complaint->slug) }}" class="text-decoration-none text-dark">
 
                     <div class="complaint-card">
                         <div class="user-info">
@@ -86,6 +87,7 @@
                             <span class="date">{{ $complaint->created_at->diffForHumans() }}</span>
                         </div>
                     </div>
+                    </a>
                 @endforeach
             </div>
         </div>
@@ -93,116 +95,103 @@
 
 
     <!-- HTML -->
-    <section class="trending-section py-5 text-center position-relative overflow-hidden">
-        <h2 class="section-title mb-4">
-            <span class="title">Çok Konuşulanlar</span>
+    <section class="ck-slider-section py-5 text-center position-relative overflow-hidden">
+        <h2 class="ck-section-title mb-4" style="color: #85878e !important; font-weight: lighter !important;">
+            <span class="ck-title-text">Çok Konuşulanlar</span>
         </h2>
-        <div class="background-shapes">
-            <div class="bg-circle bg-purple"></div>
-            <div class="bg-circle bg-green"></div>
-        </div>
-        <div class="trending-container d-flex align-items-center justify-content-center position-relative">
-            <button class="slide-btn left" onclick="slideLeft()">&#10094;</button>
 
-            <div class="trending-viewport">
-                <div class="trending-wrapper d-flex" id="trendingWrapper">
+        <!-- Arka Plan Şekilleri -->
+
+
+        <div class="ck-slider-container position-relative d-flex align-items-center justify-content-center">
+            <button class="ck-slide-btn left">&#10094;</button>
+
+            <div class="ck-slider-viewport" id="ckSliderViewport">
+                <div class="ck-slider-track" id="ckSliderTrack">
+                    <!-- Kartlar -->
                     @foreach($complaints as $complaint)
-                        <div class="trending-card {{ $loop->iteration % 2 === 0 ? 'purple-card text-white' : 'white-card' }}">
+                            <div class="ck-slide-card {{ $loop->iteration % 2 === 0 ? 'purple-card text-white' : 'white-card' }}">
                             @if(isset($complaint->user->profile_image))
-                                <img src="{{ asset('storage/' . $complaint->user->profile_image) }}" alt="User" class="profile-img">
+                                <img src="{{ asset('storage/' . $complaint->user->profile_image) }}" alt="User" class="ck-profile-img" style="width:40px; height:40px; border-radius:50%; margin-bottom: 0.5rem;">
                             @else
-                                <div class="profile-circle {{ $loop->iteration % 2 === 0 ? 'bg-orange' : 'bg-purple' }} text-white">
+                                <div class="ck-profile-circle {{ $loop->iteration % 2 === 0 ? 'ck-bg-orange' : 'ck-bg-purple' }} text-white">
                                     {{ strtoupper(mb_substr($complaint->user->name ?? 'U', 0, 1)) }}
                                 </div>
                             @endif
-                            <div class="card-content text-start">
+
+                            <div class="ck-card-content text-start">
                                 <strong>{{ $complaint->user->name ?? 'Anonim' }}</strong>
-                                <span class="views">👁️5</span>
-                                <p>{{ \Illuminate\Support\Str::limit($complaint->title, 80) }}</p>
-                                <a href="#" class="category {{ $loop->iteration % 2 === 0 ? 'text-white' : '' }}">
+                                <span class="ck-views">👁️{{ $complaint->view_count ?? 5 }}</span>
+                                <a href="{{ route('complaint.show', $complaint->slug) }}"  class="text-decoration-none">
+                                <p>{{ \Illuminate\Support\Str::limit($complaint->title, 80) }}</p></a>
+                                <a href="{{ route('complaint.show', $complaint->slug) }}" class="ck-category {{ $loop->iteration % 2 === 0 ? 'text-white' : '' }}">
                                     🔗 {{ $complaint->company->name ?? 'Bilinmeyen Şirket' }}
                                 </a>
                             </div>
-                            <span class="comments {{ $loop->iteration % 2 === 0 ? '' : 'text-success' }}">
-              💬 5 Yorum
-            </span>
+
+                            <span class="ck-comments {{ $loop->iteration % 2 === 0 ? '' : 'text-success' }}">
+          💬 {{ $complaint->comment_count ?? 0 }} Yorum
+      </span>
                         </div>
+
                     @endforeach
                 </div>
             </div>
 
-            <button class="slide-btn right" onclick="slideRight()">&#10095;</button>
+            <button class="ck-slide-btn right">&#10095;</button>
         </div>
     </section>
-
-    <!-- CSS -->
     <style>
-        .trending-section {
+        .ck-section-title {
+            transform: translate(-6px, -25px);
+        }
+        .ck-slider-section {
+            background-image: url("{{ asset('images/cok-konusulanlar.svg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #f5f6fa; /* fallback rengi */
+            position: relative;
+            overflow: hidden;
+        }
+        .ck-slider-section {
             background-color: #f5f6fa;
             position: relative;
             overflow: hidden;
         }
 
-        .section-title {
+        .ck-section-title {
             position: relative;
             z-index: 2;
+            display: inline-block;
+            padding: 0 1rem;
+            border-radius: 8px;
         }
 
-        .highlighted-title {
-            background-color: #b7d4fb;
-            padding: 0 0.5rem;
-        }
-
-        .background-shapes {
+        .ck-background-shapes {
             position: absolute;
+            top: 0;
             right: 0;
-            top: 50px;
             width: 100%;
             height: 100%;
             z-index: 0;
-            pointer-events: none; /* Arka plan tıklanamaz olacak */
-        }
-        /* Mobil uyum için eklenenler */
-        @media (max-width: 768px) {
-            .trending-viewport {
-                overflow-x: auto !important;
-                -webkit-overflow-scrolling: touch;
-                scroll-snap-type: x mandatory;
-            }
-
-            .trending-wrapper {
-                width: max-content;
-            }
-
-            .trending-card {
-                scroll-snap-align: start;
-            }
-
-            .slide-btn {
-                display: none; /* Mobilde butonlar gizlenir */
-            }
-
-            .trending-container {
-                padding: 0.5rem;
-            }
+            pointer-events: none;
         }
 
-
-        .bg-circle {
+        .ck-bg-circle {
             position: absolute;
             border-radius: 50%;
         }
 
-        .bg-purple {
+        .ck-bg-purple {
             background-color: #6c63ff;
             width: 700px;
             height: 700px;
-            top: 0;
-            right: 0;
-            border-top-left-radius: 200px;
+            top: -100px;
+            right: -150px;
         }
 
-        .bg-green {
+        .ck-bg-green {
             background-color: #2cd49c;
             width: 400px;
             height: 400px;
@@ -211,49 +200,44 @@
             opacity: 0.8;
         }
 
-        .trending-container {
+        .ck-slider-container {
             position: relative;
-            z-index: 1;
-            gap: 1rem;
+            z-index: 2;
             padding: 1rem;
-            overflow: hidden;
+            width: 100%;
+            max-width: 100%;
         }
 
-        .trending-viewport {
+        .ck-slider-viewport {
             overflow: hidden;
+            scroll-behavior: smooth;
             width: 100%;
             max-width: 740px;
         }
 
-        .trending-wrapper {
+        .ck-slider-track {
             display: flex;
+            transition: transform 0.5s ease-in-out;
+            will-change: transform;
             gap: 1rem;
-            transition: transform 0.5s ease;
         }
 
-        .trending-card {
+        .ck-slide-card {
+            flex: 0 0 auto;
             min-width: 350px;
             max-width: 350px;
             padding: 1.5rem;
             border-radius: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            flex-shrink: 0;
-            transition: transform 0.3s ease;
-        }
-
-        .trending-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .white-card {
-            background-color: #fff;
+            background: #fff;
+            scroll-snap-align: start;
         }
 
         .purple-card {
             background-color: #6c63ff;
         }
 
-        .profile-circle {
+        .ck-profile-circle {
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -264,19 +248,11 @@
             margin-bottom: 0.5rem;
         }
 
-        .bg-orange {
+        .ck-bg-orange {
             background-color: #ff6f00;
         }
 
-        .card-content {
-            margin-bottom: 1rem;
-        }
-
-        .comments {
-            font-size: 0.9rem;
-        }
-
-        .slide-btn {
+        .ck-slide-btn {
             background: #fff;
             border: 1px solid #ccc;
             border-radius: 50%;
@@ -287,72 +263,59 @@
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
-            z-index: 5; /* Butonlar artık en önde olacak */
+            z-index: 10;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .slide-btn.left {
+        .ck-slide-btn.left {
             left: 0.5rem;
         }
 
-        .slide-btn.right {
+        .ck-slide-btn.right {
             right: 0.5rem;
         }
 
-        #trendingWrapper {
-            display: flex;
-            overflow: hidden;
-            transition: transform 0.5s ease;
-        }
-
-        #trendingWrapper > .card {
-            min-width: 100%;
-            flex-shrink: 0;
-            margin-right: 20px;
-        }
-
-
-        /* Responsive düzenleme */
+        /* Mobil */
         @media (max-width: 768px) {
-            .trending-card {
+            .ck-slide-card {
                 min-width: 80vw;
                 max-width: 80vw;
             }
-        }
 
+            .ck-slider-viewport {
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .ck-slide-btn {
+                display: none;
+            }
+        }
     </style>
 
-    <!-- JavaScript -->
     <script>
-        function isMobile() {
-            return window.innerWidth <= 768;
-        }
-
-        function slideTo(index) {
-            if (isMobile()) return; // Mobilde elle kaydırılacak
-            const maxIndex = wrapper.children.length - 2;
-            currentIndex = Math.max(0, Math.min(index, maxIndex));
-            wrapper.style.transform = translateX(-${currentIndex * cardWidth}px);
-        }
-
         document.addEventListener("DOMContentLoaded", () => {
-            const wrapper = document.getElementById("trendingWrapper");
-            if (!wrapper) return;
-
-            const cards = wrapper.children;
+            const track = document.getElementById("ckSliderTrack");
+            const cards = track.children;
             let index = 0;
 
-            function updateSlide() {
+            function getCardWidth() {
                 const card = cards[0];
-                if (!card) return;
-                const cardWidth = card.offsetWidth + 20; // 20px margin
-                wrapper.style.transform = translateX(-${index * cardWidth}px);
+                if (!card) return 0;
+                return card.offsetWidth + 16; // 16px gap
+            }
+
+            function updateSlide() {
+                const cardWidth = getCardWidth();
+                track.style.transform = `translateX(-${index * cardWidth}px)`;
             }
 
             function slideLeft() {
+                if (window.innerWidth <= 768) return; // Mobilde elle kaydırılır
                 if (index > 0) {
                     index--;
                     updateSlide();
@@ -360,6 +323,7 @@
             }
 
             function slideRight() {
+                if (window.innerWidth <= 768) return;
                 if (index < cards.length - 1) {
                     index++;
                     updateSlide();
@@ -369,15 +333,12 @@
                 }
             }
 
-            const leftBtn = document.querySelector(".slide-btn.left");
-            const rightBtn = document.querySelector(".slide-btn.right");
+            document.querySelector(".ck-slide-btn.left").addEventListener("click", slideLeft);
+            document.querySelector(".ck-slide-btn.right").addEventListener("click", slideRight);
 
-            if (leftBtn && rightBtn) {
-                leftBtn.addEventListener("click", slideLeft);
-                rightBtn.addEventListener("click", slideRight);
+            if (window.innerWidth > 768) {
+                setInterval(slideRight, 5000);
             }
-
-            setInterval(slideRight, 3500);
         });
     </script>
 
@@ -389,9 +350,11 @@
 
                 <!-- Yazı Alanı -->
                 <div class="col-md-5">
-                    <h2 class="text-secondary fw-bold">FirmaCv<br><span class="text-dark"></span></h2>
+                    <h2 class="text-secondary fw-bold"> FirmaCV Deneyim Paylaşım Platformuna Katılım Rehberi<br><span class="text-dark"></span></h2>
                     <p class="text-secondary mt-4">
-FirmaCv kuruluş amacı olarak lorem ipsum dolar sit amet
+
+
+                        FirmaCV’ye üye olarak iş hayatındaki deneyimlerinizi güvenle paylaşabilir ve geniş bir topluluğun parçası olabilirsiniz.
                     </p>
                 </div>
 
@@ -452,23 +415,23 @@ FirmaCv kuruluş amacı olarak lorem ipsum dolar sit amet
             }
         </style>
     </section>
+    <section class="py-5 text-center custom-experience-section" style="background-color: #695ce6; color: white; ">
+        <div class="container" >
+            <h4 class="display-5 fw-bold mb-4 ">İyi Bir Personel Deneyimi Şirketinizin İtibarını Artırır</h4>
 
-    <section class="py-5 text-center" style="background-color: #695ce6; color: white;">
-        <div class="container">
-            <h2 class="display-5 fw-bold mb-4 ">Tüketici deneyimi, sizin markanız</h2>
-            <br>
             <p class="lead mb-4">
-                Olumsuz alışveriş deneyimi yaşayan müşteriler, bu süreci 250 kişiyle paylaşıyor. <br>
-                Müşteri odaklı kültürün parçası olmak ve mutlu müşteriler yaratmak için:
+                Olumsuz deneyimler çalışanlar bu düşüncelerini sosyal medyada paylaşmaktan çekinmezler.<br> Personel odaklı bir kültür,
+                mutlu çalışanlar demektir; mutlu çalışanlar ise şirketin başarısının anahtarıdır.
             </p>
             <br>
-            <a href="/kurumsal-uyelik" class="btn btn-light btn-lg rounded-pill fw-bold">
+            <a href="/kurumsal-uyelik" class="btn btn-light btn-lg rounded-pill custom-btn-hover">
                 Birlikte Çalışalım
             </a>
         </div>
     </section>
 
     <style>
+
         .trending-section {
             padding: 40px;
             background: #f7f7fc;

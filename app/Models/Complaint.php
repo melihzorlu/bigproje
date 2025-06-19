@@ -3,27 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Complaint extends Model
 {
     protected $fillable = [
-        'user_id', 'company_id', 'title', 'description', 'status', 'slug',
+        'user_id',
+        'company_id',
+        'title',
+        'slug',
+        'description',
+        'status',
+        'view_count',
+        'rating'
     ];
 
-    // Slug oluşturma (otomatik)
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($complaint) {
-            if (empty($complaint->slug)) {
-                $complaint->slug = Str::slug($complaint->title) . '-' . uniqid();
-            }
-        });
-    }
-
-    // İlişkiler
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -34,23 +27,8 @@ class Complaint extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function categories()
+    public function comments()
     {
-        return $this->belongsToMany(Category::class, 'complaint_categories');
-    }
-
-    public function files()
-    {
-        return $this->hasMany(ComplaintFile::class);
-    }
-
-    public function videos()
-    {
-        return $this->hasMany(ComplaintVideo::class);
-    }
-
-    public function replies()
-    {
-        return $this->hasMany(ComplaintReply::class);
+        return $this->hasMany(Comment::class);
     }
 }

@@ -16,6 +16,7 @@ class ComplaintController extends Controller
     public function show($slug)
     {
         $complaint = Complaint::where('slug', $slug)->firstOrFail();
+        $complaint->increment('view_count');
         return view('pages.complaint-detail', compact('complaint'));
     }
 

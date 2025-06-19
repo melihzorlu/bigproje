@@ -1,0 +1,561 @@
+/* =====================
+   GENEL AYARLAR ve RESET
+===================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+.container {
+    padding: 0 15px;
+}
+
+
+/* =====================
+   BUTONLAR
+===================== */
+.btn-purple {
+    background-color: #695ce6;
+    border: 2px solid #695ce6;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 30px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    font-size: 0.95rem;
+}
+
+.btn-purple:hover {
+    background-color: #594bd3;
+    border-color: #594bd3;
+}
+
+.btn-outline-green {
+    background-color: transparent;
+    border: 2px solid #00b46c;
+    color: #00b46c;
+    padding: 8px 15px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-green:hover {
+    background-color: #00b46c;
+    color: white;
+}
+
+.custom-btn {
+    font-size: 16px;
+    padding: 8px 16px;
+}
+
+.custom-btn i {
+    margin-right: 5px;
+}
+
+
+/* =====================
+   HEADER - MENÜ
+===================== */
+.desktop-header {
+    background-color: #fff;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.logo img {
+    height: 50px;
+}
+
+.hamburger-menu {
+    font-size: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+
+/* =====================
+   MOBİL MENÜ
+===================== */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    transition: right 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.mobile-menu .menu-close {
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: #333;
+    align-self: flex-end;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.mobile-search {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    width: 100%;
+}
+
+@media (max-width: 420px) {
+    .desktop-header .btn {
+        font-size: 13px;
+        padding: 4px 10px;
+    }
+
+    .desktop-header .dropdown-toggle {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .desktop-header .rounded-circle {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 14px;
+    }
+
+    .desktop-header .gap-3 {
+        gap: 0.5rem !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .desktop-header .d-md-flex {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .desktop-header .btn {
+        width: 100%;
+        text-align: left;
+    }
+}
+
+@media (max-width: 420px) {
+    .desktop-header .logo img {
+        height: 38px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .desktop-header .logo img {
+        height: 32px !important;
+    }
+}
+@media (max-width: 365px) {
+    .desktop-header .btn.btn-purple {
+        font-size: 13px !important;
+        padding: 4px 10px !important;
+        max-width: 120px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+/* =====================
+   ÇEREZ BİLDİRİMİ
+===================== */
+#cookie-consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #222;
+    color: #fff;
+    padding: 15px;
+    font-size: 14px;
+    display: none;
+    z-index: 9999;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0.85;
+}
+
+#cookie-consent-banner button {
+    background-color: #00b46c;
+    border: none;
+    padding: 8px 12px;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#cookie-consent-banner a:hover {
+    text-decoration: underline;
+}
+
+
+/* =====================
+   ŞİKAYET DETAY SAYFASI
+===================== */
+.complaint-container {
+    max-width: 880px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.complaint-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #444;
+}
+
+.complaint-title a {
+    color: #6c63ff;
+}
+
+.complaint-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0 16px;
+    font-size: 0.95rem;
+    color: #777;
+}
+
+.complaint-meta .user-initial {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ffc107;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.complaint-body {
+    font-size: 1.05rem;
+    color: #333;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.complaint-actions {
+    border-top: 1px solid #eee;
+    padding-top: 16px;
+    display: flex;
+    gap: 10px;
+}
+
+.complaint-actions button,
+.complaint-actions .like-button {
+    background: none;
+    border: none;
+    color: #6c63ff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+/* =====================
+   YAN MENÜ (Sidebar)
+===================== */
+.sidebar-custom a {
+    display: block;
+    padding: 12px 20px;
+    color: #fff;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+.sidebar-custom a:hover {
+    background-color: #343a40;
+}
+
+.sidebar-custom a.active {
+    background-color: #fff !important;
+    color: #000 !important;
+    font-weight: 600;
+    box-shadow: inset 4px 0 0 #0d6efd;
+}
+
+
+/* =====================
+   BLOG GENEL
+===================== */
+.blog-section {
+    background-color: #fff;
+    padding: 60px 0;
+}
+
+.category-btn {
+    border: 1px solid #dcdce0;
+    background-color: #fff;
+    border-radius: 40px;
+    padding: 10px 25px;
+    font-size: 1rem;
+    color: #555;
+    margin: 6px;
+    transition: all 0.3s ease;
+}
+
+.category-btn:hover {
+    background-color: #f4f4f4;
+    color: #000;
+}
+
+
+/* =====================
+   BLOG DETAY
+===================== */
+.blog-title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.blog-date {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.blog-content {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #333;
+}
+
+.info-section,
+.image-section,
+.content-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.image-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+/* =====================
+   SİMGE GRUPLARI / RENK KODLARI
+===================== */
+.icon-group span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.circle-green  { background-color: #3bd38c; }
+.circle-gray   { background-color: #ccc; }
+.circle-blue   { background-color: #b2bbff; }
+
+.triangle-yellow {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 14px solid #ffc107;
+    margin-top: 2px;
+}
+
+
+/* =====================
+   RESPONSIVE MEDYA SORGULARI
+===================== */
+@media (max-width: 768px) {
+    .header-buttons {
+        display: none !important;
+    }
+
+    .btn-purple.d-md-none,
+    .hamburger-menu {
+        display: inline-block !important;
+    }
+
+    .col-6 {
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .complaint-title {
+        font-size: 1.5rem;
+    }
+
+    .complaint-body {
+        font-size: 1rem;
+    }
+
+    .complaint-container {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    h2 {
+        font-size: 1.3rem;
+    }
+    h3 {
+        font-size: 1.1rem;
+    }
+    p {
+        font-size: 0.85rem;
+    }
+
+    .live-button {
+        font-size: 10px;
+        padding: 5px 10px;
+    }
+
+    .col-md-3, .col-md-4 {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    h2 {
+        font-size: 1.2rem;
+    }
+    h3 {
+        font-size: 1rem;
+    }
+    p {
+        font-size: 0.8rem;
+    }
+
+    .live-button {
+        font-size: 9px;
+        padding: 4px 8px;
+    }
+}
+
+.corporate-hero-section {
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    color: white;
+}
+.corporate-hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+}
+.corporate-hero-subtitle {
+    font-size: 1.25rem;
+    margin-top: 0.5rem;
+}
+.corporate-section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2d3436;
+}
+.corporate-feature-card {
+    background: #f8f9fa;
+    border-radius: 15px;
+    text-align: center;
+    padding: 30px 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+.corporate-feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+}
+.corporate-feature-icon {
+    height: 60px;
+    margin-bottom: 15px;
+}
+.corporate-benefit-list li {
+    background-size: 20px;
+    padding-left: 30px;
+    margin-bottom: 10px;
+    list-style: none;
+    font-size: 16px;
+    color: #2d3436;
+}
+.corporate-testimonial-section {
+    background-color: #f1f2f6;
+}
+.corporate-testimonial-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    font-style: italic;
+}
+.corporate-faq-section .accordion-button {
+    background-color: #fff;
+    color: #2d3436;
+    font-weight: 600;
+}
+.corporate-faq-section .accordion-button:not(.collapsed) {
+    background-color: #6c5ce7;
+    color: white;
+}
+.corporate-faq-section .accordion-item {
+    border-radius: 10px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+}
+
+
+/* HOME BIRLIKTE CALISALIM*/
+.custom-btn-hover:hover {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+.custom-experience-section {
+    background-color: #695ce6 !important;
+    color: white  !important;
+    height: 450px  !important; /* Section’a 70px ekstra yükseklik */
+    display: flex  !important;
+    align-items: center  !important;
+    justify-content: center  !important;
+    text-align: center  !important;
+}

@@ -17,7 +17,6 @@
 
     <section class="py-5" style="background-color: #f8f9fa;">
         <div class="container text-center">
-            <h1 style="font-weight: 500 !important;" class="fw-bold text-dark mb-4">Hakkımızda</h1>
 <br>
             <div class="mb-5">
                 <h4 class="fw-semibold text-secondary">Deneyimlerin Paylaşıldığı Bir Platform</h4>

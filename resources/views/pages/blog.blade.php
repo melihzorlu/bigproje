@@ -29,7 +29,7 @@
 
     <section class="articles-section py-5">
         <div class="container">
-            <h2 class="fw-bold mb-4">Makaleler</h2>
+            <h2 class="fw-bold mb-4">Blog</h2>
 
             <div class="row g-4">
                 <!-- Kart 1 -->

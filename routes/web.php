@@ -12,14 +12,24 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Artisan;
 
+
+
+// Giriş
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+// Çıkış
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 Route::get('/admin', function () {
     return redirect(\Filament\Facades\Filament::getUrl());
 });
 // ANA SAYFA
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 // SABİT SAYFALAR
 Route::view('/hakkimizda', 'pages.about');
+Route::view('/kurumsal-uyelik', 'pages.corporate-membership');
 Route::view('/degerlendirme-klavuzu', 'pages.evaluationGuide');
 Route::view('/bireysel-uyelik-sozlesmesi', 'pages.individualMembershipAgreement');
 Route::view('/kullanim-kosullari', 'pages.termsofUse');
@@ -31,6 +41,8 @@ Route::view('/uye-aydinlatma', 'pages.memberInformation');
 Route::view('/profile', 'pages.profile');
 Route::view('/complaint-create', 'pages.complaint-create');
 Route::view('/complaint-detail', 'pages.complaint-detail');
+Route::get('/sikayet/{slug}', [ComplaintController::class, 'show'])->name('complaints.show');
+
 Route::view('/blog-detail', 'pages.blog-detail');
 
 // BLOG
@@ -39,7 +51,10 @@ Route::prefix('blog')->group(function () {
     Route::get('/{slug}', [BlogController::class, 'show'])->name('blog.show');
 });
 
+use App\Http\Controllers\SocialAuthController;
 
+Route::get('/auth/{provider}', [SocialAuthController::class, 'redirect'])->name('social.redirect');
+Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'])->name('social.callback');
 
 // ŞİKAYET
 Route::prefix('sikayet')->group(function () {
