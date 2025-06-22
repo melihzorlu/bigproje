@@ -12,20 +12,19 @@
                         <img style="z-index: 100; top: 30px;" src="{{ asset('images/anasayfa-section-1.png') }}" class="img-fluid w-100" alt="home-section">
                     </div>
                 </div>
-                <div style="margin-top:1.5rem !important; " class="col-lg-6 text-lg-start ps-5">
-                    <h1 style="font-family: 'Metropolis', sans-serif; font-size: 55px;
-    font-weight: 500 !important;" class="fw-bold display-4">Çözüm için</h1>
-                    <h2 style="font-family: 'Metropolis', sans-serif; font-size: 35px;
-    font-weight: 400 !important;"  class="text-dark fw-semibold">Firma CV</h2>
-                    <form  style="padding-right: 30px; !important;" class="mt-4 d-flex justify-content-center" style="margin-bottom: 1.5rem !important;" id="banner-search-form">
+                <div class="col-lg-6 ps-5" style="margin-top:1.5rem; margin-left: ">
+                    <h1 style="font-family: 'Metropolis', sans-serif; font-size: 55px; font-weight: 500;" class="fw-bold display-4">Çözüm için</h1>
+                    <h2 style="font-family: 'Metropolis', sans-serif; font-size: 35px; font-weight: 400;" class="text-dark fw-semibold">Firma CV</h2>
+
+                    <form class="mt-4 d-flex justify-content-start" style="padding-right: 30px; margin-bottom: 1.5rem;" id="banner-search-form">
                         <div class="input-group shadow-sm" style="border-radius: 50px; overflow: hidden; max-width: 700px; width: 100%;">
                             <span class="input-group-text bg-white border-0"><i class="bi bi-search text-muted"></i></span>
                             <input type="text" class="form-control border-0" placeholder="Firma, sektör,şirket ara" aria-label="Search" style="border-radius: 0;">
-                            <button class="btn px-4 text-white" type="submit" style=" background-color: #00b46c; border-radius: 0;">Ara</button>
+                            <button class="btn px-4 text-white" type="submit" style="background-color: #00b46c; border-radius: 0;">Ara</button>
                         </div>
                     </form>
-
                 </div>
+
             </div>
         </div>
     </section>
@@ -42,60 +41,98 @@
             $bottomComplaints = $complaints->slice($half);
         @endphp
 
-            <!-- ÜST SIRA - sola kayanlar -->
+
+        <!-- ÜST SIRA - sola kayanlar -->
         <div class="complaint-row left-scroll">
             <div class="complaint-track">
                 @foreach ($topComplaints as $complaint)
                     <a href="{{ route('complaint.show', $complaint->slug) }}" class="text-decoration-none text-dark">
-
-                    <div class="complaint-card">
-                        <div class="user-info">
-                            <img src="{{ asset('images/orn-sikayet.jpg') }}" alt="User">
-                            <div class="meta">
-                                <strong>{{ $complaint->user->name ?? 'Anonim' }}</strong>
-                                <span>{{ $complaint->company->name ?? 'Şirket Yok' }}</span>
+                        <div class="complaint-card">
+                            <div class="user-info">
+                                <img src="{{ asset('images/orn-sikayet.jpg') }}" alt="User">
+                                <div class="meta">
+                                    <strong>{{ $complaint->user->name ?? 'Anonim' }}</strong>
+                                    <span>{{ $complaint->company->name ?? 'Şirket Yok' }}</span>
+                                </div>
+                            </div>
+                            <p class="complaint-text">{{ Str::limit($complaint->description, 100) }}</p>
+                            <div class="card-footer">
+                                <span class="view-count">👁️ {{ number_format($complaint->view_count ?? 0, 0, ',', '.') }}</span>
+                                <span class="date">{{ $complaint->created_at->diffForHumans() }}</span>
                             </div>
                         </div>
-                        <p class="complaint-text">{{ Str::limit($complaint->description, 100) }}</p>
-                        <div class="card-footer">
-                            <span class="view-count">👁️ {{ number_format($complaint->view_count ?? 0, 0, ',', '.') }}</span>
-                            <span class="date">{{ $complaint->created_at->diffForHumans() }}</span>
-                        </div>
-                    </div>
                     </a>
                 @endforeach
+
+                    @foreach ($topComplaints as $complaint)
+                        <a href="{{ route('complaint.show', $complaint->slug) }}" class="text-decoration-none text-dark">
+                            <div class="complaint-card">
+                                <div class="user-info">
+                                    <img src="{{ asset('images/orn-sikayet.jpg') }}" alt="User">
+                                    <div class="meta">
+                                        <strong>{{ $complaint->user->name ?? 'Anonim' }}</strong>
+                                        <span>{{ $complaint->company->name ?? 'Şirket Yok' }}</span>
+                                    </div>
+                                </div>
+                                <p class="complaint-text">{{ Str::limit($complaint->description, 100) }}</p>
+                                <div class="card-footer">
+                                    <span class="view-count">👁️ {{ number_format($complaint->view_count ?? 0, 0, ',', '.') }}</span>
+                                    <span class="date">{{ $complaint->created_at->diffForHumans() }}</span>
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
+
             </div>
         </div>
+
 
         <!-- ALT SIRA - sağa kayanlar -->
         <div class="complaint-row right-scroll">
             <div class="complaint-track">
                 @foreach ($bottomComplaints as $complaint)
                     <a href="{{ route('complaint.show', $complaint->slug) }}" class="text-decoration-none text-dark">
-
-                    <div class="complaint-card">
-                        <div class="user-info">
-                            <img src="{{ asset('images/orn-sikayet.jpg') }}" alt="User">
-                            <div class="meta">
-                                <strong>{{ $complaint->user->name ?? 'Anonim' }}</strong>
-                                <span>{{ $complaint->company->name ?? 'Şirket Yok' }}</span>
+                        <div class="complaint-card">
+                            <div class="user-info">
+                                <img src="{{ asset('images/orn-sikayet.jpg') }}" alt="User">
+                                <div class="meta">
+                                    <strong>{{ $complaint->user->name ?? 'Anonim' }}</strong>
+                                    <span>{{ $complaint->company->name ?? 'Şirket Yok' }}</span>
+                                </div>
+                            </div>
+                            <p class="complaint-text">{{ Str::limit($complaint->description, 100) }}</p>
+                            <div class="card-footer">
+                                <span class="view-count">👁️ {{ number_format($complaint->view_count ?? 0, 0, ',', '.') }}</span>
+                                <span class="date">{{ $complaint->created_at->diffForHumans() }}</span>
                             </div>
                         </div>
-                        <p class="complaint-text">{{ Str::limit($complaint->description, 100) }}</p>
-                        <div class="card-footer">
-                            <span class="view-count">👁️ {{ number_format($complaint->view_count ?? 0, 0, ',', '.') }}</span>
-                            <span class="date">{{ $complaint->created_at->diffForHumans() }}</span>
+                    </a>
+                @endforeach
+
+                @foreach ($bottomComplaints as $complaint)
+                    <a href="{{ route('complaint.show', $complaint->slug) }}" class="text-decoration-none text-dark">
+                        <div class="complaint-card">
+                            <div class="user-info">
+                                <img src="{{ asset('images/orn-sikayet.jpg') }}" alt="User">
+                                <div class="meta">
+                                    <strong>{{ $complaint->user->name ?? 'Anonim' }}</strong>
+                                    <span>{{ $complaint->company->name ?? 'Şirket Yok' }}</span>
+                                </div>
+                            </div>
+                            <p class="complaint-text">{{ Str::limit($complaint->description, 100) }}</p>
+                            <div class="card-footer">
+                                <span class="view-count">👁️ {{ number_format($complaint->view_count ?? 0, 0, ',', '.') }}</span>
+                                <span class="date">{{ $complaint->created_at->diffForHumans() }}</span>
+                            </div>
                         </div>
-                    </div>
                     </a>
                 @endforeach
             </div>
         </div>
-    </section>
 
 
-    <!-- HTML -->
-    <section class="ck-slider-section py-5 text-center position-relative overflow-hidden">
+        <!-- HTML -->4612+
+        <section class="ck-slider-section py-5 text-center position-relative overflow-hidden">
         <h2 class="ck-section-title mb-4" style="color: #85878e !important; font-weight: lighter !important;">
             <span class="ck-title-text">Çok Konuşulanlar</span>
         </h2>
@@ -142,6 +179,11 @@
         </div>
     </section>
     <style>
+        .right-scroll .complaint-track {
+            animation: scroll-right 60s linear infinite;
+            transform: translateX(-50%); /* BAŞLANGIÇTA KARTLAR EN SAĞDA BAŞLASIN */
+        }
+
         .ck-section-title {
             transform: translate(-6px, -25px);
         }
@@ -589,12 +631,13 @@
 
         @keyframes scroll-right {
             0% {
-                transform: translateX(-100%);
-            }
-            100% {
                 transform: translateX(0%);
             }
+            100% {
+                transform: translateX(100%);
+            }
         }
+        .right-scroll .complaint-track
         /*GÜNDEMDEKİ PERSONEL DENEYİMLERİ CSS*/
     </style>
 
