@@ -12,7 +12,11 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Artisan;
 
+use Illuminate\Support\Facades\View;
 
+Route::get('/login', function () {
+    return redirect('/'); // ya da özel login sayfan varsa ona yönlendir
+})->name('login');
 
 // Giriş
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -43,6 +47,25 @@ Route::view('/complaint-create', 'pages.complaint-create');
 Route::view('/complaint-detail', 'pages.complaint-detail');
 Route::get('/sikayet/{slug}', [ComplaintController::class, 'show'])->name('complaints.show');
 
+Route::get('/deneyim-yaz', function () {
+    if (!auth()->check()) {
+        return redirect('/')->with('loginRequired', true);
+    }
+    return view('pages.createNewExperience');
+})->name('deneyim.yaz');
+
+Route::middleware('auth')->get('/deneyim-yaz', function () {
+    return view('pages.createNewExperience');
+})->name('deneyim.yaz');
+
+Route::middleware('auth')->get('/deneyim-yaz/yazarak', function () {
+    return view('pages.experience-write-text');
+})->name('deneyim.yaz.yazarak');
+
+// DENEYİM YAZ - Video ile
+Route::middleware('auth')->get('/deneyim-yaz/video', function () {
+    return view('pages.experience-write-video');
+})->name('deneyim.yaz.video');
 Route::view('/blog-detail', 'pages.blog-detail');
 
 // BLOG
@@ -66,7 +89,9 @@ Route::get('/sss', [FaqController::class, 'index'])->name('faq.index');
 // GİRİŞ / ÇIKIŞ
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+Route::post('/deneyim-yaz/yazarak/kaydet', [\App\Http\Controllers\ExperienceController::class, 'storeText'])
+    ->name('deneyim.yaz.kaydet')
+    ->middleware('auth');
 // MIGRATE
 Route::get('/run-migrate', function () {
     try {

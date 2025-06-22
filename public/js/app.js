@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+
     // 📌 Sidebar Aktif Bağlantı
     document.querySelectorAll(".sidebar a").forEach(link => {
         link.addEventListener("click", function () {
@@ -82,3 +83,5 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+

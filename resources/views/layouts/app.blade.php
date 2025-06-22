@@ -19,7 +19,7 @@
 </div>
 
 @include('partials.footer')  <!-- Footer dahil edildi -->
-
+@include('pages.experience-modal')
 <!-- Cookie Consent Banner -->
 <div id="cookie-consent-banner" class="fixed bottom-0 left-0 w-full bg-gray-900 text-white text-sm px-4 py-3 flex justify-between items-center z-50">
     <span>Bu site çerezleri kullanmaktadır. Detaylar için

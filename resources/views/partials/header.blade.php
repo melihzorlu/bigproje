@@ -25,7 +25,10 @@
         </a>
 
         <!-- Mobil: Deneyimi Yaz Butonu -->
-        <a href="#" class="btn btn-purple d-md-none">+ Deneyimi Yaz</a>
+        <a href="{{ auth()->check() ? route('deneyim.yaz') : '#' }}"
+           class="btn btn-purple d-md-none {{ auth()->check() ? '' : 'trigger-login-warning' }}">
+            + Deneyimi Yaz
+        </a>
 
         <!-- Mobil: Hamburger Menü -->
         <button class="hamburger-menu d-md-none border-0 bg-transparent fs-2" id="menuToggle">&#9776;</button>
@@ -55,47 +58,72 @@
                 </div>
 
                 <!-- Deneyim Butonu -->
-                <a href="#" class="btn btn-purple">+ Deneyimi Yaz</a>
+                <a href="{{ route('deneyim.yaz') }}" class="btn btn-purple">+ Deneyimi Yaz</a>
             @else
                 <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#loginModal">
                     Giriş Yap / Üye Ol
                 </a>
-                <a href="#" class="btn btn-purple">+ Deneyimi Yaz</a>
+                <a href="#" class="btn btn-purple trigger-login-warning">+ Deneyimi Yaz</a>
             @endauth
         </div>
-    <!-- Mobil Menü -->
-    <div class="mobile-menu position-fixed top-0 end-0 bg-white shadow p-4 d-none" id="mobileMenu" style="width: 80%; height: 100vh; z-index: 9999;">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5 class="mb-0">Menü</h5>
-            <button id="menuClose" class="btn-close"></button>
+
+        <!-- Mobil Menü -->
+        <div class="mobile-menu position-fixed top-0 end-0 bg-white shadow p-4 d-none" id="mobileMenu" style="width: 80%; height: 100vh; z-index: 9999;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0">Menü</h5>
+                <button id="menuClose" class="btn-close"></button>
+            </div>
+
+            @auth
+                <p class="fw-bold mb-2">{{ Auth::user()->name }}</p>
+                <a href="/profilim" class="btn btn-outline-secondary w-100 mb-2">Profilim</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="btn btn-outline-danger w-100 mb-3" type="submit">Çıkış Yap</button>
+                </form>
+            @else
+                <a href="#" class="btn btn-outline-success w-100 mb-3" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Giriş Yap / Üye Ol
+                </a>
+            @endauth
+
+            <input type="text" class="form-control mb-3" placeholder="Ara...">
+            <a href="{{ auth()->check() ? route('deneyim.yaz') : '#' }}" class="btn btn-purple w-100 {{ auth()->check() ? '' : 'trigger-login-warning' }}">+ Deneyimi Yaz</a>
         </div>
-
-        @auth
-            <p class="fw-bold mb-2">{{ Auth::user()->name }}</p>
-            <a href="/profilim" class="btn btn-outline-secondary w-100 mb-2">Profilim</a>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button class="btn btn-outline-danger w-100 mb-3" type="submit">Çıkış Yap</button>
-            </form>
-        @else
-            <a href="#" class="btn btn-outline-success w-100 mb-3" data-bs-toggle="modal" data-bs-target="#loginModal">
-                Giriş Yap / Üye Ol
-            </a>
-        @endauth
-
-        <input type="text" class="form-control mb-3" placeholder="Ara...">
-        <a href="#" class="btn btn-purple w-100">+ Deneyimi Yaz</a>
     </div>
 </header>
 
+<!-- Giriş Gerekli Modal -->
+<div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4 text-center">
+            <h5 class="modal-title">Devam Etmek İçin Giriş Yapmalısınız</h5>
+            <div class="mt-3">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">
+                    Giriş Yap
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Vendor JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Custom JS -->
 <script src="{{ asset('js/app.js') }}"></script>
+
+<script>
+    document.querySelectorAll('.trigger-login-warning').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            var loginModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+            loginModal.show();
+        });
+    });
+</script>
 
 @include('pages.login-modal')
 @include('pages.register-modal')
+
 @stack('scripts')
 </body>
 </html>
