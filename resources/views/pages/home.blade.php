@@ -143,12 +143,12 @@
                 <div class="ck-slider-viewport" id="ckSliderViewport">
                     <div class="ck-slider-track" id="ckSliderTrack">
                         @foreach($complaints as $index => $complaint)
-                            <div class="ck-slide-card {{ $loop->iteration % 2 === 0 ? 'purple-card text-white' : 'white-card' }}"
+                            <div class="ck-slide-card"
                                  data-index="{{ $index }}">
                                 @if(isset($complaint->user->profile_image))
                                     <img src="{{ asset('storage/' . $complaint->user->profile_image) }}" alt="User" class="ck-profile-img">
                                 @else
-                                    <div class="ck-profile-circle {{ $loop->iteration % 2 === 0 ? 'ck-bg-orange' : 'ck-bg-purple' }}">
+                                    <div class="ck-profile-circle ck-bg-purple">
                                         {{ strtoupper(mb_substr($complaint->user->name ?? 'U', 0, 1)) }}
                                     </div>
                                 @endif
@@ -391,7 +391,7 @@
 
                 // Başlangıçta ortalama ve otomatik kayma başlat
                 updateSlide();
-                let autoSlideTimer = setInterval(slideRight, 2000); // mobil + masaüstü
+                let autoSlideTimer = setInterval(slideRight, 2500); // mobil + masaüstü
 
                 // Dokununca otomatik kaydırmayı durdur (isteğe bağlı)
                 viewport.addEventListener("touchstart", () => {
