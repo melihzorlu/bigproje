@@ -12,7 +12,7 @@
                         <img style="z-index: 100; top: 30px;" src="{{ asset('images/anasayfa-section-1.png') }}" class="img-fluid w-100" alt="home-section">
                     </div>
                 </div>
-                <div class="col-lg-6 ps-5" style="margin-top:1.5rem; margin-left: ">
+                <div class="col-lg-6 ps-5" style="margin-top:1.5rem; ">
                     <h1 style="font-family: 'Metropolis', sans-serif; font-size: 55px; font-weight: 500;" class="fw-bold display-4">Çözüm için</h1>
                     <h2 style="font-family: 'Metropolis', sans-serif; font-size: 35px; font-weight: 400;" class="text-dark fw-semibold">Firma CV</h2>
 
@@ -131,8 +131,8 @@
         </div>
 
 
-        <!-- HTML -->4612+
-        <section class="ck-slider-section py-5 text-center position-relative overflow-hidden">
+        <!-- HTML -->
+        <section class="ck-slider-section py-5 text-center position-relative overflow-hidden" style="height: 550px">
         <h2 class="ck-section-title mb-4" style="color: #85878e !important; font-weight: lighter !important;">
             <span class="ck-title-text">Çok Konuşulanlar</span>
         </h2>
@@ -144,7 +144,7 @@
             <button class="ck-slide-btn left">&#10094;</button>
 
             <div class="ck-slider-viewport" id="ckSliderViewport">
-                <div class="ck-slider-track" id="ckSliderTrack">
+                <div class="ck-slider-tracksa" id="ckSliderTracks" style="margin-top: 40px !important; height: 300px !important;">
                     <!-- Kartlar -->
                     @foreach($complaints as $complaint)
                             <div class="ck-slide-card {{ $loop->iteration % 2 === 0 ? 'purple-card text-white' : 'white-card' }}">
@@ -178,7 +178,8 @@
             <button class="ck-slide-btn right">&#10095;</button>
         </div>
     </section>
-    <style>
+
+        <style>
         .right-scroll .complaint-track {
             animation: scroll-right 60s linear infinite;
             transform: translateX(-50%); /* BAŞLANGIÇTA KARTLAR EN SAĞDA BAŞLASIN */
@@ -195,11 +196,15 @@
             background-color: #f5f6fa; /* fallback rengi */
             position: relative;
             overflow: hidden;
+            margin-top: 60px;
         }
         .ck-slider-section {
-            background-color: #f5f6fa;
+            z-index: 3;
+            color: #333 !important; /* Daha koyu okunabilir renk */
             position: relative;
-            overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.8); /* Arka plan kontrastı için */
+            border-radius: 8px;
+            padding: 0.2rem 1rem;
         }
 
         .ck-section-title {
@@ -245,9 +250,12 @@
         .ck-slider-container {
             position: relative;
             z-index: 2;
-            padding: 1rem;
+            padding: 30PX 0;
             width: 100%;
             max-width: 100%;
+            display: flex;
+            justify-content: flex-start !important; /*  Buraya dikkat */
+
         }
 
         .ck-slider-viewport {
@@ -255,14 +263,22 @@
             scroll-behavior: smooth;
             width: 100%;
             max-width: 740px;
+            display: flex;
+            justify-content: flex-start;
         }
 
-        .ck-slider-track {
+        .ck-slider-tracksa {
+
+            margin-top: 40px!important;
             display: flex;
             transition: transform 0.5s ease-in-out;
             will-change: transform;
             gap: 1rem;
+            padding-left: 0.5rem; /* Daha sola dayansın */
+            height: 300px !important;
+
         }
+
 
         .ck-slide-card {
             flex: 0 0 auto;
@@ -273,6 +289,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             background: #fff;
             scroll-snap-align: start;
+
         }
 
         .purple-card {
@@ -339,51 +356,53 @@
         }
     </style>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const track = document.getElementById("ckSliderTrack");
-            const cards = track.children;
-            let index = 0;
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const track = document.getElementById("ckSliderTracks");
+                const cards = track.children;
+                let index = 0;
 
-            function getCardWidth() {
-                const card = cards[0];
-                if (!card) return 0;
-                return card.offsetWidth + 16; // 16px gap
-            }
-
-            function updateSlide() {
-                const cardWidth = getCardWidth();
-                track.style.transform = `translateX(-${index * cardWidth}px)`;
-            }
-
-            function slideLeft() {
-                if (window.innerWidth <= 768) return; // Mobilde elle kaydırılır
-                if (index > 0) {
-                    index--;
-                    updateSlide();
+                function getCardWidth() {
+                    const card = cards[0];
+                    if (!card) return 0;
+                    return card.offsetWidth + 16; // 16px gap
                 }
-            }
 
-            function slideRight() {
-                if (window.innerWidth <= 768) return;
-                if (index < cards.length - 1) {
-                    index++;
-                    updateSlide();
-                } else {
-                    index = 0;
-                    updateSlide();
+                function updateSlide() {
+                    const cardWidth = getCardWidth();
+                    track.style.transform = `translateX(-${index * cardWidth}px)`;
                 }
-            }
 
-            document.querySelector(".ck-slide-btn.left").addEventListener("click", slideLeft);
-            document.querySelector(".ck-slide-btn.right").addEventListener("click", slideRight);
+                function slideLeft() {
+                    if (window.innerWidth <= 768) return; // Mobilde elle kaydırılır
+                    if (index > 0) {
+                        index--;
+                        updateSlide();
+                    }
+                }
 
-            if (window.innerWidth > 768) {
-                setInterval(slideRight, 5000);
-            }
-        });
-    </script>
+                function slideRight() {
+                    if (window.innerWidth <= 768) return;
+                    if (index < cards.length - 1) {
+                        index++;
+                        updateSlide();
+                    } else {
+                        index = 0;
+                        updateSlide();
+                    }
+                }
 
+                document.querySelector(".ck-slide-btn.left").addEventListener("click", slideLeft);
+                document.querySelector(".ck-slide-btn.right").addEventListener("click", slideRight);
+
+                if (window.innerWidth > 768) {
+                    setInterval(slideRight, 5000);
+                }
+
+                // Zaman damgası DOM’a ekleniyor (sadece deneme amaçlı)
+                track.setAttribute("data-updated-at", new Date().getTime());
+            });
+        </script>
 
 
     <section class="py-5 position-relative overflow-hidden">
