@@ -132,280 +132,273 @@
 
 
         <!-- HTML -->
-        <section class="ck-slider-section py-5 text-center position-relative overflow-hidden" style="height: 550px">
-        <h2 class="ck-section-title mb-4" style="color: #85878e !important; font-weight: lighter !important;">
-            <span class="ck-title-text">Çok Konuşulanlar</span>
-        </h2>
+        <section class="ck-slider-section py-5 text-center position-relative overflow-hidden">
+            <h2 class="ck-section-title mb-4">
+                <span class="ck-title-text">Çok Konuşulanlar</span>
+            </h2>
 
-        <!-- Arka Plan Şekilleri -->
+            <div class="ck-slider-container">
+                <button class="ck-slide-btn left">&#10094;</button>
 
+                <div class="ck-slider-viewport" id="ckSliderViewport">
+                    <div class="ck-slider-track" id="ckSliderTrack">
+                        @foreach($complaints as $index => $complaint)
+                            <div class="ck-slide-card {{ $loop->iteration % 2 === 0 ? 'purple-card text-white' : 'white-card' }}"
+                                 data-index="{{ $index }}">
+                                @if(isset($complaint->user->profile_image))
+                                    <img src="{{ asset('storage/' . $complaint->user->profile_image) }}" alt="User" class="ck-profile-img">
+                                @else
+                                    <div class="ck-profile-circle {{ $loop->iteration % 2 === 0 ? 'ck-bg-orange' : 'ck-bg-purple' }}">
+                                        {{ strtoupper(mb_substr($complaint->user->name ?? 'U', 0, 1)) }}
+                                    </div>
+                                @endif
 
-        <div class="ck-slider-container position-relative d-flex align-items-center justify-content-center">
-            <button class="ck-slide-btn left">&#10094;</button>
-
-            <div class="ck-slider-viewport" id="ckSliderViewport">
-                <div class="ck-slider-tracksa" id="ckSliderTracks" style="margin-top: 40px !important; height: 300px !important;">
-                    <!-- Kartlar -->
-                    @foreach($complaints as $complaint)
-                            <div class="ck-slide-card {{ $loop->iteration % 2 === 0 ? 'purple-card text-white' : 'white-card' }}">
-                            @if(isset($complaint->user->profile_image))
-                                <img src="{{ asset('storage/' . $complaint->user->profile_image) }}" alt="User" class="ck-profile-img" style="width:40px; height:40px; border-radius:50%; margin-bottom: 0.5rem;">
-                            @else
-                                <div class="ck-profile-circle {{ $loop->iteration % 2 === 0 ? 'ck-bg-orange' : 'ck-bg-purple' }} text-white">
-                                    {{ strtoupper(mb_substr($complaint->user->name ?? 'U', 0, 1)) }}
+                                <div class="ck-card-content text-start">
+                                    <strong>{{ $complaint->user->name ?? 'Anonim' }}</strong>
+                                    <span class="ck-views">👁️{{ $complaint->view_count ?? 5 }}</span>
+                                    <a href="{{ route('complaint.show', $complaint->slug) }}" class="text-decoration-none">
+                                        <p>{{ \Illuminate\Support\Str::limit($complaint->title, 80) }}</p>
+                                    </a>
+                                    <a href="{{ route('complaint.show', $complaint->slug) }}" class="ck-category">
+                                        🔗 {{ $complaint->company->name ?? 'Bilinmeyen Şirket' }}
+                                    </a>
                                 </div>
-                            @endif
 
-                            <div class="ck-card-content text-start">
-                                <strong>{{ $complaint->user->name ?? 'Anonim' }}</strong>
-                                <span class="ck-views">👁️{{ $complaint->view_count ?? 5 }}</span>
-                                <a href="{{ route('complaint.show', $complaint->slug) }}"  class="text-decoration-none">
-                                <p>{{ \Illuminate\Support\Str::limit($complaint->title, 80) }}</p></a>
-                                <a href="{{ route('complaint.show', $complaint->slug) }}" class="ck-category {{ $loop->iteration % 2 === 0 ? 'text-white' : '' }}">
-                                    🔗 {{ $complaint->company->name ?? 'Bilinmeyen Şirket' }}
-                                </a>
+                                <span class="ck-comments">
+                            💬 {{ $complaint->comment_count ?? 0 }} Yorum
+                        </span>
                             </div>
-
-                            <span class="ck-comments {{ $loop->iteration % 2 === 0 ? '' : 'text-success' }}">
-          💬 {{ $complaint->comment_count ?? 0 }} Yorum
-      </span>
-                        </div>
-
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
+
+                <button class="ck-slide-btn right">&#10095;</button>
             </div>
+        </section>
+       <style>
+           /* === GENEL BÖLÜM === */
+           .ck-slider-section {
+               height: 500px;
+               background-image: url("{{ asset('images/cok-konusulanlar.svg') }}");
+               background-size: cover;
+               background-position: center;
+               background-repeat: no-repeat;
+               background-color: #f5f6fa;
+               border-radius: 8px;
+               margin-top: 60px;
+               padding: 0 1rem;
+               position: relative;
+               z-index: 1;
+           }
 
-            <button class="ck-slide-btn right">&#10095;</button>
-        </div>
-    </section>
+           .ck-section-title {
+               color: #85878e;
+               font-weight: lighter;
+               font-size: 1.75rem;
+               margin-bottom: 2rem;
+           }
 
-        <style>
-        .right-scroll .complaint-track {
-            animation: scroll-right 60s linear infinite;
-            transform: translateX(-50%); /* BAŞLANGIÇTA KARTLAR EN SAĞDA BAŞLASIN */
-        }
+           /* === SLIDER ALANI === */
+           .ck-slider-container {
+               width: 100%;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               position: relative;
+           }
 
-        .ck-section-title {
-            transform: translate(-6px, -25px);
-        }
-        .ck-slider-section {
-            background-image: url("{{ asset('images/cok-konusulanlar.svg') }}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #f5f6fa; /* fallback rengi */
-            position: relative;
-            overflow: hidden;
-            margin-top: 60px;
-        }
-        .ck-slider-section {
-            z-index: 3;
-            color: #333 !important; /* Daha koyu okunabilir renk */
-            position: relative;
-            background-color: rgba(255, 255, 255, 0.8); /* Arka plan kontrastı için */
-            border-radius: 8px;
-            padding: 0.2rem 1rem;
-        }
+           .ck-slider-viewport {
+               overflow: hidden;
+               scroll-behavior: smooth;
+               width: 100%;
+               max-width: 1200px;
+               position: relative;
+           }
 
-        .ck-section-title {
-            position: relative;
-            z-index: 2;
-            display: inline-block;
-            padding: 0 1rem;
-            border-radius: 8px;
-        }
+           /* === SLIDER İÇİ === */
+           .ck-slider-track {
+               display: flex;
+               gap: 2rem;
+               transition: transform 0.5s ease-in-out;
+               will-change: transform;
+               padding: 1rem 2rem;
+           }
 
-        .ck-background-shapes {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
+           /* === SLIDE KART === */
+           .ck-slide-card {
+               flex: 0 0 auto;
+               width: 400px;
+               background: #fff;
+               padding: 1.5rem;
+               border-radius: 20px;
+               box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+               transform: scale(0.85);
+               opacity: 0.4;
+               transition: transform 0.5s ease, opacity 0.5s ease;
+           }
 
-        .ck-bg-circle {
-            position: absolute;
-            border-radius: 50%;
-        }
+           /* === AKTİF SLIDE === */
+           .ck-slide-card.active {
+               transform: scale(1);
+               opacity: 1;
+               z-index: 2;
+           }
 
-        .ck-bg-purple {
-            background-color: #6c63ff;
-            width: 700px;
-            height: 700px;
-            top: -100px;
-            right: -150px;
-        }
+           /* === Renkli Kartlar === */
+           .purple-card {
+               background-color: #6c63ff;
+               color: white;
+           }
+           .white-card {
+               background-color: white;
+               color: #333;
+           }
 
-        .ck-bg-green {
-            background-color: #2cd49c;
-            width: 400px;
-            height: 400px;
-            bottom: -50px;
-            left: 40%;
-            opacity: 0.8;
-        }
+           /* === Profil Görseli / Harfli Circle === */
+           .ck-profile-img,
+           .ck-profile-circle {
+               width: 40px;
+               height: 40px;
+               border-radius: 50%;
+               margin-bottom: 0.5rem;
+               object-fit: cover;
+           }
+           .ck-profile-circle {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               font-weight: bold;
+               color: white;
+           }
+           .ck-bg-orange {
+               background-color: #ff6f00;
+           }
+           .ck-bg-purple {
+               background-color: #6c63ff;
+           }
 
-        .ck-slider-container {
-            position: relative;
-            z-index: 2;
-            padding: 30PX 0;
-            width: 100%;
-            max-width: 100%;
-            display: flex;
-            justify-content: flex-start !important; /*  Buraya dikkat */
+           /* === Kart içeriği === */
+           .ck-card-content {
+               display: flex;
+               flex-direction: column;
+               gap: 0.3rem;
+           }
+           .ck-views {
+               margin-left: 0.5rem;
+               font-size: 0.85rem;
+               opacity: 0.7;
+           }
+           .ck-category {
+               font-size: 0.9rem;
+               text-decoration: none;
+               color: inherit;
+           }
+           .ck-comments {
+               font-size: 0.9rem;
+               margin-top: 0.5rem;
+               display: block;
+               color: #2e7d32;
+           }
 
-        }
+           /* === SLIDE BUTONLARI === */
+           .ck-slide-btn {
+               background: #fff;
+               border: 1px solid #ccc;
+               border-radius: 50%;
+               width: 40px;
+               height: 40px;
+               font-size: 1.2rem;
+               position: absolute;
+               top: 50%;
+               transform: translateY(-50%);
+               cursor: pointer;
+               z-index: 10;
+               box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+               display: flex;
+               align-items: center;
+               justify-content: center;
+           }
+           .ck-slide-btn.left {
+               left: 0.5rem;
+           }
+           .ck-slide-btn.right {
+               right: 0.5rem;
+           }
 
-        .ck-slider-viewport {
-            overflow: hidden;
-            scroll-behavior: smooth;
-            width: 100%;
-            max-width: 740px;
-            display: flex;
-            justify-content: flex-start;
-        }
+           /* === MOBİL UYUMLULUK === */
+           @media (max-width: 768px) {
+               .ck-slide-card {
+                   width: 90vw;
+                   transform: scale(1) !important;
+                   opacity: 1 !important;
+               }
 
-        .ck-slider-tracksa {
+               .ck-slider-viewport {
+                   overflow-x: auto;
+                   scroll-snap-type: x mandatory;
+                   -webkit-overflow-scrolling: touch;
+               }
 
-            margin-top: 40px!important;
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            will-change: transform;
-            gap: 1rem;
-            padding-left: 0.5rem; /* Daha sola dayansın */
-            height: 300px !important;
+               .ck-slider-track {
+                   padding: 0 1rem;
+               }
 
-        }
-
-
-        .ck-slide-card {
-            flex: 0 0 auto;
-            min-width: 350px;
-            max-width: 350px;
-            padding: 1.5rem;
-            border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            background: #fff;
-            scroll-snap-align: start;
-
-        }
-
-        .purple-card {
-            background-color: #6c63ff;
-        }
-
-        .ck-profile-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-
-        .ck-bg-orange {
-            background-color: #ff6f00;
-        }
-
-        .ck-slide-btn {
-            background: #fff;
-            border: 1px solid #ccc;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 1.2rem;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            z-index: 10;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .ck-slide-btn.left {
-            left: 0.5rem;
-        }
-
-        .ck-slide-btn.right {
-            right: 0.5rem;
-        }
-
-        /* Mobil */
-        @media (max-width: 768px) {
-            .ck-slide-card {
-                min-width: 80vw;
-                max-width: 80vw;
-            }
-
-            .ck-slider-viewport {
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .ck-slide-btn {
-                display: none;
-            }
-        }
-    </style>
-
+               .ck-slide-btn {
+                   display: none;
+               }
+           }
+       </style>
         <script>
             document.addEventListener("DOMContentLoaded", () => {
-                const track = document.getElementById("ckSliderTracks");
-                const cards = track.children;
+                const track = document.getElementById("ckSliderTrack");
+                const cards = Array.from(track.children);
+                const viewport = document.getElementById("ckSliderViewport");
                 let index = 0;
 
                 function getCardWidth() {
                     const card = cards[0];
                     if (!card) return 0;
-                    return card.offsetWidth + 16; // 16px gap
+                    const style = window.getComputedStyle(card);
+                    const marginRight = parseFloat(style.marginRight || 0);
+                    const marginLeft = parseFloat(style.marginLeft || 0);
+                    return card.offsetWidth + marginLeft + marginRight + 32; // gap için ekstra boşluk
                 }
 
                 function updateSlide() {
                     const cardWidth = getCardWidth();
-                    track.style.transform = `translateX(-${index * cardWidth}px)`;
+                    const containerWidth = viewport.offsetWidth;
+                    const offset = Math.max(0, (cardWidth * index) - ((containerWidth - cardWidth) / 2));
+                    track.style.transform = `translateX(-${offset}px)`;
+
+                    cards.forEach((card, i) => {
+                        card.classList.toggle("active", i === index);
+                    });
                 }
 
                 function slideLeft() {
-                    if (window.innerWidth <= 768) return; // Mobilde elle kaydırılır
-                    if (index > 0) {
-                        index--;
-                        updateSlide();
-                    }
+                    index = index > 0 ? index - 1 : cards.length - 1;
+                    updateSlide();
                 }
 
                 function slideRight() {
-                    if (window.innerWidth <= 768) return;
-                    if (index < cards.length - 1) {
-                        index++;
-                        updateSlide();
-                    } else {
-                        index = 0;
-                        updateSlide();
-                    }
+                    index = index < cards.length - 1 ? index + 1 : 0;
+                    updateSlide();
                 }
 
+                // Butonlarla kaydırma
                 document.querySelector(".ck-slide-btn.left").addEventListener("click", slideLeft);
                 document.querySelector(".ck-slide-btn.right").addEventListener("click", slideRight);
 
-                if (window.innerWidth > 768) {
-                    setInterval(slideRight, 5000);
-                }
+                // Başlangıçta ortalama ve otomatik kayma başlat
+                updateSlide();
+                let autoSlideTimer = setInterval(slideRight, 2000); // mobil + masaüstü
 
-                // Zaman damgası DOM’a ekleniyor (sadece deneme amaçlı)
-                track.setAttribute("data-updated-at", new Date().getTime());
+                // Dokununca otomatik kaydırmayı durdur (isteğe bağlı)
+                viewport.addEventListener("touchstart", () => {
+                    clearInterval(autoSlideTimer);
+                });
             });
-        </script>
-
-
-    <section class="py-5 position-relative overflow-hidden">
+        </script>        <section class="py-5 position-relative overflow-hidden">
         <div class="container">
             <div class="row align-items-center">
 
