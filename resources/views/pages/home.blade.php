@@ -2,7 +2,7 @@
 
 @section('title', 'Anasayfa')
 <style src="{{ asset('css/app.css') }}?v={{ time() }}"></style>
-<script src="{{ asset('js/app.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('js/app.js') }}?v={{ time() }}"></script>
 @section('content')
     <section class="banner py-5" style="background-color: #f7f7fc; margin-top: -48px !important;">
         <div class="container-fluid px-0">
@@ -558,7 +558,7 @@
         /*GÜNDEMDEKİ PERSONEL DENEYİMLERİ CSS*/
        .trending-complaints {
            background-color: #f7f7fc;
-           padding: 40px 0;
+
        }
 
        .complaint-row {
