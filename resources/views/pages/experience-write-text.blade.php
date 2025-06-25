@@ -1,78 +1,113 @@
-@extends('layouts.app')
-
-@section('title', 'Deneyimini Yazarak Anlat')
+@extends('layouts.app') {{-- header/footer olmayan özel layout --}}
+@section('title', 'Deneyim Yaz')
 
 @section('content')
     <style>
-        .step-wrapper {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 60px 20px;
-            min-height: 100vh;
+        body {
+            background-color: #f5f6fa;
+            margin: 0;
+            padding: 0;
         }
-        .step-wrapper h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
+        .experience-layout {
+            display: flex;
+            height: 100vh;
+        }
+        .experience-sidebar {
+            background-color: #1c1c2e;
+            width: 280px;
+            color: white;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            border-top-left-radius: 32px;
+            border-bottom-left-radius: 32px;
+        }
+        .experience-sidebar img {
+            height: 40px;
+            margin-bottom: 2rem;
+        }
+        .experience-sidebar .step {
+            font-size: 16px;
+            margin: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .experience-content {
+            flex-grow: 1;
+            padding: 3rem;
+            background-color: #f5f6fa;
+            border-top-right-radius: 32px;
+            border-bottom-right-radius: 32px;
+        }
+        .experience-box {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 2rem;
+        }
+        textarea {
+            width: 100%;
+            border-radius: 16px;
+            border: none;
+            padding: 1rem;
+            height: 160px;
+            resize: none;
+            background-color: #f8f9fb;
+        }
+        .upload-box {
+            border: 2px dashed #9f8efc;
+            border-radius: 16px;
+            padding: 2rem;
             text-align: center;
+            margin-top: 1.5rem;
         }
-        .step {
-            display: none;
+        .upload-box button {
+            background-color: #7f67f8;
+            color: white;
+            padding: 0.6rem 2rem;
+            border-radius: 30px;
+            border: none;
+            font-weight: bold;
         }
-        .step.active {
-            display: block;
+        .continue-btn {
+            margin-top: 2rem;
+            text-align: right;
+        }
+        .continue-btn button {
+            background-color: #4ccc84;
+            color: white;
+            border: none;
+            padding: 0.6rem 2rem;
+            border-radius: 30px;
+            font-weight: bold;
         }
     </style>
 
-    <div class="step-wrapper">
-        <h2>Deneyimini Paylaş</h2>
+    <div class="experience-layout">
+        <div class="experience-sidebar">
+            <img src="{{ asset('images/fimracvlogo.svg') }}" alt="Logo">
+            <div class="text-white fw-bold fs-5 mb-4">Deneyim Yaz</div>
+            <div class="step"><span>1</span> Şikayet Detayı</div>
+            <div class="step"><span>2</span> Firma</div>
+            <div class="step"><span>3</span> Belge</div>
+        </div>
+        <div class="experience-content">
+            <form method="POST" action="" enctype="multipart/form-data">
+                @csrf
+                <div class="experience-box">
+                    <textarea name="description" placeholder="Ürün veya hizmetle ilgili nasıl bir sorun yaşadınız?" required></textarea>
 
-        <form method="POST" action="{{ route('deneyim.yaz.kaydet') }}" enctype="multipart/form-data">
-            @csrf
+                    <div class="upload-box">
+                        <button type="button" onclick="document.getElementById('images').click()">+ Görsel Ekle</button>
+                        <input type="file" name="images[]" id="images" multiple hidden accept="image/*">
+                    </div>
 
-            <!-- Step 1: Firma -->
-            <div class="step step-1 active">
-                <label for="firma" class="form-label">Deneyim yaşadığınız firmanın adını yazın</label>
-                <input type="text" id="firma" name="firma" class="form-control mb-4" required>
-                <button type="button" class="btn btn-primary next">İleri</button>
-            </div>
-
-            <!-- Step 2: Şikayet -->
-            <div class="step step-2">
-                <label for="detay" class="form-label">Yaşadığınız deneyimi detaylıca anlatın</label>
-                <textarea id="detay" name="detay" class="form-control mb-4" rows="6" required></textarea>
-                <button type="button" class="btn btn-secondary back">Geri</button>
-                <button type="button" class="btn btn-primary next">İleri</button>
-            </div>
-
-            <!-- Step 3: Belgeler -->
-            <div class="step step-3">
-                <label for="belgeler" class="form-label">Belge veya fotoğraf yükleyin</label>
-                <input type="file" id="belgeler" name="belgeler[]" class="form-control mb-4" multiple>
-
-                <button type="button" class="btn btn-secondary back">Geri</button>
-                <button type="submit" class="btn btn-success">Tamamla</button>
-            </div>
-        </form>
+                    <div class="continue-btn">
+                        <button type="submit">Devam Et →</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <script>
-        const steps = document.querySelectorAll('.step');
-        let currentStep = 0;
-
-        document.querySelectorAll('.next').forEach(btn => {
-            btn.addEventListener('click', () => {
-                steps[currentStep].classList.remove('active');
-                currentStep++;
-                steps[currentStep].classList.add('active');
-            });
-        });
-
-        document.querySelectorAll('.back').forEach(btn => {
-            btn.addEventListener('click', () => {
-                steps[currentStep].classList.remove('active');
-                currentStep--;
-                steps[currentStep].classList.add('active');
-            });
-        });
-    </script>
 @endsection

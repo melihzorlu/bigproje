@@ -87,8 +87,6 @@
                 </a>
             @endauth
 
-            <input type="text" class="form-control mb-3" placeholder="Ara...">
-            <a href="{{ auth()->check() ? route('deneyim.yaz') : '#' }}" class="btn btn-purple w-100 {{ auth()->check() ? '' : 'trigger-login-warning' }}">+ Deneyimi Yaz</a>
         </div>
     </div>
 </header>

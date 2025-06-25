@@ -58,9 +58,19 @@ Route::middleware('auth')->get('/deneyim-yaz', function () {
     return view('pages.createNewExperience');
 })->name('deneyim.yaz');
 
-Route::middleware('auth')->get('/deneyim-yaz/yazarak', function () {
-    return view('pages.experience-write-text');
-})->name('deneyim.yaz.yazarak');
+Route::middleware('auth')->group(function () {
+    Route::post('/complaint/create/step1', [ComplaintController::class, 'storeStep1'])->name('complaints.store.step1');
+    Route::get('/deneyim-yaz/yazarak', [ComplaintController::class, 'createStep1'])->name('deneyim.yaz.yazarak');
+    Route::post('/deneyim-yaz/yazarak', [ComplaintController::class, 'storeStep1'])->name('complaint.step1.store');
+
+    // Sonraki adım yönlendirmesi için hazırlık (id ile yönlendirme)
+    Route::get('/complaint/create/step2/{id}', [ComplaintController::class, 'step2'])->name('complaints.step2');});
+Route::post('/complaint/create/step2/{id}', [ComplaintController::class, 'storeStep2'])->name('complaints.store.step2');
+// Şikayet Oluşturma - 3. Adım (kategori ve diğer bilgiler)
+Route::middleware('auth')->group(function () {
+    Route::get('/deneyim-yaz/step3/{id}', [ComplaintController::class, 'step3'])->name('complaints.step3');
+    Route::post('/deneyim-yaz/step3/{id}', [ComplaintController::class, 'storeStep3'])->name('complaints.step3.store');
+});
 
 // DENEYİM YAZ - Video ile
 Route::middleware('auth')->get('/deneyim-yaz/video', function () {

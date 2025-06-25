@@ -30,13 +30,15 @@
             left: 20px;
             display: flex;
             align-items: center;
+            text-decoration: none;
         }
         .experience-logo img {
-            height: 36px;
+            height: 60px;
             margin-right: 8px;
         }
         .experience-logo strong {
-            font-size: 16px;
+            font-size: 18px;
+            color: #000;
         }
         .experience-home {
             position: absolute;
@@ -58,15 +60,15 @@
             flex-wrap: wrap;
         }
         .experience-option {
-            width: 160px;
-            height: 160px;
+            width: 180px;
+            height: 180px;
             background-color: #7f67f8;
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-radius: 25px;
+            border-radius: 30px;
             text-decoration: none;
             transition: transform 0.2s;
         }
@@ -74,7 +76,7 @@
             transform: scale(1.05);
         }
         .experience-option img {
-            height: 56px;
+            height: 72px;
             margin-bottom: 12px;
         }
         .experience-option span {
@@ -83,11 +85,11 @@
         }
         @media (max-width: 576px) {
             .experience-option {
-                width: 140px;
-                height: 140px;
+                width: 150px;
+                height: 150px;
             }
             .experience-option img {
-                height: 48px;
+                height: 64px;
             }
             .experience-option span {
                 font-size: 14px;
@@ -103,19 +105,19 @@
     <a href="/" class="experience-home" title="Ana Sayfa">
         <i class="fa-solid fa-house"></i>
     </a>
-    <div class="experience-logo">
+    <a href="/" class="experience-logo">
         <img src="{{ asset('images/fimracvlogo.svg') }}" alt="Firma CV">
-    </div>
+    </a>
 
     <div class="experience-question">Deneyiminizi nasıl iletmek istersiniz?</div>
 
     <div class="experience-options">
         <a href="{{ route('deneyim.yaz.video') }}" class="experience-option">
-            <img src="{{ asset('images/video-icon.svg') }}" alt="Video ile anlat">
+            <img src="{{ asset('images/video-cam.svg') }}" alt="Video ile anlat">
             <span>Video ile anlat</span>
         </a>
         <a href="{{ route('deneyim.yaz.yazarak') }}" class="experience-option">
-            <img src="{{ asset('images/256x256icon-32.svg') }}" alt="Yazarak anlat">
+            <img  src="{{ asset('images/write-pencil.svg') }}" alt="Yazarak anlat">
             <span>Yazarak anlat</span>
         </a>
     </div>

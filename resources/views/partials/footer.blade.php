@@ -3,7 +3,7 @@
         <!-- Üst Menü -->
         <div class="row align-items-center text-center text-md-start mb-4">
             <div class="col-12 col-md-3 mb-3 mb-md-0 text-md-start">
-                <a href="/"> <img src="{{ asset('images/fimracvlogo.svg') }}" alt="FirmaCv" style="height: 45px;"></a>            </div>
+                <a href="/"> <img src="{{ asset('images/fimracvlogo.svg') }}" alt="FirmaCv" style="height: 55px;"></a>            </div>
             <div class="col-12 col-md-9 text-center text-md-end">
                 <ul class="list-unstyled d-flex justify-content-center justify-content-md-end flex-wrap">
                     <li class="ms-3"><a href="https://www.linkedin.com/company/firma-cv/about/?viewAsMember=true"><i class="fa-brands fa-linkedin" style="color: #7b7a85; font-size: 34px;"></i></a></li>

@@ -21,7 +21,7 @@
                 <!-- Sağ Kısım: Görsel Alanı -->
                 <div class="col-lg-6 text-center">
                     <!-- Görsel Linkini Sen Ekleyeceksin -->
-                    <img src="{{ asset('images/kurumsal1.svg') }}" alt="Kurumsal Üyelik Görseli" class="img-fluid" style="max-width: 100%; height: auto;">
+                    <img src="{{ asset('images/kurumsal1.webp') }}" alt="Kurumsal Üyelik Görseli" class="img-fluid" style="max-width: 100%; height: auto;">
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
 
                 <!-- Sol Kısım: Görsel -->
                 <div class="col-lg-6 text-center mb-4 mb-lg-0">
-                    <img src="{{ asset('images/kurumsal2.svg') }}" alt="İletişim Görseli" class="img-fluid" style="max-width: 100%; height: auto;">
+                    <img src="{{ asset('images/kurumsal2.webp') }}" alt="İletişim Görseli" class="img-fluid" style="max-width: 100%; height: auto;">
                 </div>
 
                 <!-- Sağ Kısım: Metin -->

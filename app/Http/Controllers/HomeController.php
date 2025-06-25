@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Complaint;  // Burada Complaint modelini kullan
+use App\Models\ComplaintCategory;
 
 class HomeController extends Controller
 {
