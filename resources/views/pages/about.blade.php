@@ -67,7 +67,7 @@
             <div class="row justify-content-center gy-4">
                 <div class="col-6 col-md-3">
                     <div class="mb-3">
-                        <img src="{{ asset('images/icon-(1).svg') }}" alt="Üye Sayısı" class="stat-icon">
+                        <img src="{{ asset('images/icon-(1).svg') }}" alt="Üye Sayısı" class="stat-icon" style="width: 150px; height: 150px;">
                     </div>
                     <h6 class="text-secondary">Bireysel Üye Sayısı</h6>
                     <h3 class="fw-bold">12.909.536</h3>
@@ -75,7 +75,7 @@
 
                 <div class="col-6 col-md-3">
                     <div class="mb-3">
-                        <img src="{{ asset('images/icon-(2).svg') }}" alt="Kayıtlı Firma" class="stat-icon">
+                        <img src="{{ asset('images/icon-(2).svg') }}" alt="Kayıtlı Firma" class="stat-icon" style="width: 150px; height: 150px;">
                     </div>
                     <h6 class="text-secondary">Kayıtlı Firma</h6>
                     <h3 class="fw-bold">226.825</h3>
@@ -83,7 +83,7 @@
 
                 <div class="col-6 col-md-3">
                     <div class="mb-3">
-                        <img src="{{ asset('images/icon-(3).svg') }}" alt="Çözülen Şikayet" class="stat-icon">
+                        <img src="{{ asset('images/icon-(3).svg') }}" alt="Çözülen Şikayet" class="stat-icon" style="width: 150px; height: 150px;">
                     </div>
                     <h6 class="text-secondary">Çözülen Personel Şikayeti</h6>
                     <h3 class="fw-bold">3.658.600</h3>
@@ -91,7 +91,7 @@
 
                 <div class="col-6 col-md-3">
                     <div class="mb-3">
-                        <img src="{{ asset('images/icon-(4).svg') }}" alt="Son 30 Günde Ziyaretçi" class="stat-icon">
+                        <img src="{{ asset('images/icon-(4).svg') }}" alt="Son 30 Günde Ziyaretçi" class="stat-icon" style="width: 150px; height: 150px;">
                     </div>
                     <h6 class="text-secondary">Son 30 Günde Ziyaretçi</h6>
                     <h3 class="fw-bold">26.337.007</h3>
