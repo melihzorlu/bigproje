@@ -57,13 +57,15 @@
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <!-- İkon Alanı -->
                     <div class="mb-3">
-                        <img src="{{ asset('images/pro-icon.svg') }}" alt="Pro İkon" style="height: 75px; ">
+                        <img src="{{ asset('images/pro-icon.svg') }}" alt="Pro İkon" style="height: 100px; ">
                     </div>
                     <!-- Metin Alanı -->
-                    <h3 class="fw-bold mb-3" style="font-size: 22px;">
-                        Firmanıza Özel Reklam Alanı Oluşturun
+                    <h3 class="fw-bold mb-3" style="font-size: 30px;">
+                        Firmanıza Özel
+                        <br >Reklam Alanı Oluşturun
                     </h3>
-                    <p style="font-size: 17px; color: #444;">
+
+                    <p style="font-size: 20px; color: #444;">
                         Firma CV’de hedef kitlenize kolayca ulaşın. Firma sayfanızdaki reklam alanlarını dilediğiniz gibi yönetin.
                     </p>
                 </div>
