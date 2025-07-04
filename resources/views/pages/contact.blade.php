@@ -129,48 +129,65 @@
         <div class="container text-center mb-5">
             <h2 class="mb-5">İletişim</h2>
 
-            <div class="row justify-content-center mb-5">
-                <div class="col-md-3 mb-4">
-                    <img src="email.png" alt="Email" width="40" class="mb-2">
+            <div class="row justify-content-center mb-4">
+                <!-- E-Posta ve KEP -->
+                <div class="col-md-4 mb-4">
+                    <img src="{{ asset('images/email.svg') }}" alt="Email" width="140" class="mb-3">
                     <h6 class="fw-bold">E-posta</h6>
-                    <p>iletisim@firmacv.com</p>
-
-                    <h6 class="fw-bold">Kep Adresi</h6>
-                    <p></p>
+                    <p>
+                        <a href="mailto:iletisim@firmacv.com" class="text-decoration-none text-dark">
+                            iletisim@firmacv.com
+                        </a>
+                    </p>
+                    <h6 class="fw-bold mt-4">Kep Adresi</h6>
+                    <p>
+                        <a href="mailto:firmacv@hs01.kep.tr" class="text-decoration-none text-dark">
+                            firmacv@hs01.kep.tr
+                        </a>
+                    </p>
                 </div>
 
-                <div class="col-md-3 mb-4">
-                    <img src="phone.png" alt="Telefon" width="40" class="mb-2">
+                <!-- Telefon ve Ticari Bilgi -->
+                <div class="col-md-4 mb-4">
+                    <img src="{{ asset('images/contact.svg') }}" alt="Telefon" width="140" class="mb-3">
                     <h6 class="fw-bold">Telefon</h6>
-                    <p>0 (123) 456 78 90</p>
-
-                    <h6 class="fw-bold">Ticari Unvan</h6>
+                    <p>
+                        <a href="tel:+901234567890" class="text-decoration-none text-dark">
+                            0 (123) 456 78 90
+                        </a>
+                    </p>
+                    <h6 class="fw-bold mt-4">Ticari Unvan</h6>
                     <p>Firma CV Bilişim A.Ş.</p>
                 </div>
 
-                <div class="col-md-3 mb-4">
-                    <img src="hours.png" alt="Çalışma Saatleri" width="40" class="mb-2">
+                <!-- Çalışma Saatleri ve Sicil -->
+                <div class="col-md-4 mb-4">
+                    <img src="{{ asset('images/shift.svg') }}" alt="Çalışma Saatleri" width="140" class="mb-3">
                     <h6 class="fw-bold">Çalışma Saatleri</h6>
-                    <p>08:30-18:00</p>
-
-                    <h6 class="fw-bold">Ticari Sicil No</h6>
+                    <p>Hafta içi: 08:30 - 18:00</p>
+                    <h6 class="fw-bold mt-4">Ticaret Sicil No</h6>
                     <p>34000 – İstanbul Ticaret Odası</p>
                 </div>
+
             </div>
 
-            <hr>
+            <hr class="my-5">
 
-            <div class="row justify-content-center mt-5">
-                <div class="col-md-3 mb-4">
-                    <h6><i class="bi bi-geo-alt-fill"></i> İstanbul</h6>
-                    <p>Caddebostan Kadıköy/İstanbul</p>
+            <!-- Konum -->
+            <div class="row justify-content-center">
+                <div class="col-md-4 text-center">
+                    <img src="{{ asset('images/location.svg') }}" width="140" alt="Ofis Konumu" class="mb-3">
+
+                    <h6 class="fw-bold mb-3">
+                        <i class="bi bi-geo-alt-fill me-1"></i> Merkez Ofis
+                    </h6>
+                    <p>Caddebostan, Kadıköy / İstanbul</p>
+
                 </div>
-
-
             </div>
         </div>
     </section>
-
+    <!-- MODALLAR EKLENDİ-->
     <div class="modal fade" id="personModal" tabindex="-1" aria-labelledby="personModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <form method="POST" action="{{ route('send.person.mail') }}" class="w-100">
