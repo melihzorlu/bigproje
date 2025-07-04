@@ -46,6 +46,8 @@ Route::view('/profile', 'pages.profile');
 Route::view('/complaint-create', 'pages.complaint-create');
 Route::view('/complaint-detail', 'pages.complaint-detail');
 Route::view('/kariyer-gelistirme-merkezi', 'pages.career-center');
+Route::post('/send-company-mail', [App\Http\Controllers\MailController::class, 'sendCompanyMail'])->name('send.company.mail');
+Route::post('/send-person-mail', [App\Http\Controllers\MailController::class, 'sendPersonMail'])->name('send.person.mail');
 Route::get('/sikayet/{slug}', [ComplaintController::class, 'show'])->name('complaints.show');
 
 Route::get('/deneyim-yaz', function () {
