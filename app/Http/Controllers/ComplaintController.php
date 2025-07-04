@@ -129,6 +129,5 @@ class ComplaintController extends Controller
             'category_id' => $request->category_id,
         ]);
 
-        return redirect()->route('home')->with('success', 'Şikayet başarıyla tamamlandı.');
-    }
+        return redirect()->route('home')->with('complaint_success', true);    }
 }

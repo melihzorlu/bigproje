@@ -14,10 +14,10 @@
                 </div>
 
                 <div class="mb-3 text-end">
-                    <small>
-                        Hesabınız yok mu?
-                        <a href="#" class="text-decoration-none fw-semibold" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal">Üye Ol</a>
-                    </small>
+
+                        <a href="#" class="register-highlight" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal">
+                            <i class="fas fa-user-plus me-1"></i> Üye Ol
+                        </a>
                 </div>
 
                 <!-- 🔐 Sosyal Giriş Butonları -->
@@ -69,3 +69,24 @@
         </div>
     </div>
 </div>
+<style>
+    .register-highlight {
+        display: inline-block;
+        padding: 0.5rem 1.2rem;
+        background: linear-gradient(135deg, #20c997, #198754);
+        color: white !important;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border-radius: 50px;
+        box-shadow: 0 0 10px rgba(25, 135, 84, 0.4);
+        transition: all 0.3s ease-in-out;
+        text-decoration: none;
+    }
+
+    .register-highlight:hover {
+        background: linear-gradient(135deg, #198754, #695ce7);
+        box-shadow: 0 0 14px rgba(105, 92, 231, 1);
+        transform: scale(1.05);
+        color: #fff !important;
+    }
+</style>

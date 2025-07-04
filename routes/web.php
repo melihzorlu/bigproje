@@ -45,6 +45,7 @@ Route::view('/uye-aydinlatma', 'pages.memberInformation');
 Route::view('/profile', 'pages.profile');
 Route::view('/complaint-create', 'pages.complaint-create');
 Route::view('/complaint-detail', 'pages.complaint-detail');
+Route::view('/kariyer-gelistirme-merkezi', 'pages.career-center');
 Route::get('/sikayet/{slug}', [ComplaintController::class, 'show'])->name('complaints.show');
 
 Route::get('/deneyim-yaz', function () {
@@ -95,7 +96,7 @@ Route::prefix('sikayet')->group(function () {
 });
 // SSS
 Route::get('/sss', [FaqController::class, 'index'])->name('faq.index');
-
+Route::post('/feedback/send', [App\Http\Controllers\FeedbackController::class, 'send'])->name('feedback.send');
 // GİRİŞ / ÇIKIŞ
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

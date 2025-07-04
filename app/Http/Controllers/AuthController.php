@@ -6,16 +6,31 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\TcDogrulamaHelper;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $loginInput = $request->input('email'); // formda name="email" olarak geliyor
+        $password = $request->input('password');
+
+        // E-posta mı telefon mu?
+        $loginField = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+
+        $credentials = [
+            $loginField => $loginInput,
+            'password' => $password,
+        ];
+
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             return redirect()->intended('/');
         }
-        return back()->withErrors(['email' => 'Giriş bilgileri hatalı.']);
+
+        return back()->withErrors([
+            'email' => 'E-posta / Telefon veya şifre hatalı.',
+        ]);
     }
 
     public function logout()
@@ -54,10 +69,15 @@ class AuthController extends Controller
             'role' => 'user',
         ]);
 
+
+        // Otomatik giriş yap
         // Otomatik giriş yap
         \Auth::login($user);
 
-        // Anasayfaya yönlendir
+// Hoş geldin maili gönder
+        \Mail::to($user->email)->send(new \App\Mail\WelcomeMail($user));
+
+// Anasayfaya yönlendir
         return redirect()->intended('/');
     }
 }

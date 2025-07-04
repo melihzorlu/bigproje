@@ -128,14 +128,12 @@
                                     {{-- Kullanıcı İsmi --}}
                                     <strong class="d-block mb-1">{{ $complaint->user->name ?? 'Anonim' }}</strong>
 
-                                    {{-- Şikayet Başlığı --}}
                                     <a href="{{ route('complaint.show', $complaint->slug) }}" class="text-decoration-none">
                                         <p class="fw-semibold mb-1">
                                             {{ \Illuminate\Support\Str::limit($complaint->title, 80) }}
                                         </p>
                                     </a>
 
-                                    {{-- Şikayet Açıklaması --}}
                                     <p class="text-muted small" style="font-size: 0.875rem;">
                                         {{ \Illuminate\Support\Str::limit(strip_tags($complaint->description), 100) }}
                                     </p>
@@ -159,6 +157,26 @@
                 </div>
 
                 <button class="ck-slide-btn right">&#10095;</button>
+            </div>
+        </section>
+
+
+
+        <section class="career-center-section text-white text-center d-flex align-items-center">
+            <div class="container py-5">
+                <h2 class="fw-semibold mb-4">FirmaCV Kariyer Geliştirme Merkezi</h2>
+                <p class="lead fs-6">
+                    FirmaCV olarak, deneyimlerinizi paylaşmanızın yanı sıra, kariyerinizde ilerlemeniz için size özel bir
+                    Kariyer Geliştirme Merkezi sunuyoruz. Merkezimizde görev alan İnsan Kaynakları (İK) kariyer danışmanlarımız,
+                    potansiyelinizi ortaya çıkarmanız ve eksiklerinizi gidermeniz için size birebir destek sağlıyor.
+                </p>
+                <p class="lead fs-6">
+                    Demo iş mülakatları aracılığıyla kendinizi geliştirme fırsatı bulacak, danışmanlarımızla yapacağınız birebir
+                    görüşmelerle profesyonel CV hazırlama, LinkedIn hesabınızı optimize etme ve etkili sunum teknikleri gibi
+                    konularda kapsamlı rehberlik alacaksınız. Kariyer yolculuğunuzda size eşlik ederek, başarıya ulaşmanız için
+                    gerekli tüm araçları sunuyoruz.
+                </p>
+                <a href="/kariyer-gelistirme-merkezi" class="btn btn-success px-4 py-2 mt-3">Kariyer Geliştirme Merkezi’ne Üye Ol</a>
             </div>
         </section>
         <section class="py-5 position-relative overflow-hidden">
@@ -208,10 +226,166 @@
         </div>
     </section>
 
+        <!-- Başarı Modalı -->
+        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-4 text-center">
+                    <div class="modal-body p-5">
+                        <div class="text-success mb-3" style="font-size: 3rem;">
+                            🎉
+                        </div>
+                        <h5 class="modal-title fw-semibold mb-3 text-dark" id="successModalLabel">Tebrikler!</h5>
+                        <p class="text-muted mb-4">
+                            Deneyiminiz başarıyla kaydedilmiştir.<br>İncelendikten sonra yayınlanacaktır.
+                        </p>
+                        <button type="button" class="btn btn-success px-4 rounded-pill" data-bs-dismiss="modal">
+                            Tamam
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Geri Bildirim Modalı -->
+        <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <form method="POST" action="{{ route('feedback.send') }}" class="w-100">
+                    @csrf
+                    <div class="modal-content border-0 shadow-lg rounded-4">
+                        <div class="modal-header border-0 pb-0 bg-white">
+                            <h5 class="modal-title text-dark fw-semibold" id="feedbackModalLabel">
+                                💬 Geri Bildiriminiz Var mı?
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                        </div>
+
+                        <div class="modal-body pt-2">
+                    <textarea
+                        class="form-control shadow-sm rounded-3 border-light-subtle"
+                        name="feedback_message"
+                        rows="5"
+                        placeholder="Deneyim yazarken karşılaştığınız bir problem ya da öneriniz var mı?"></textarea>
+                        </div>
+
+                        <div class="modal-footer border-0 bg-white d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Kapat</button>
+                            <button type="submit" class="btn btn-primary rounded-pill px-4">Gönder</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modalları Otomatik Aç -->
+        @if(session('complaint_success'))
+            <script>
+                window.addEventListener('DOMContentLoaded', function () {
+                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                    const feedbackModal = new bootstrap.Modal(document.getElementById('feedbackModal'));
+
+                    successModal.show();
+
+                    setTimeout(() => {
+                        successModal.hide();
+                        setTimeout(() => {
+                            feedbackModal.show();
+                        }, 500);
+                    }, 3000); // 3 saniye sonra feedback modal açılır
+                });
+            </script>
+        @endif
+
 
 
 
         <style>
+
+            .career-center-section {
+                min-height: 100vh;
+                background-image: url("{{ asset('images/career-center-home.svg') }}");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                position: relative;
+                padding: 60px 20px;
+                z-index: 1;
+            }
+
+            .career-center-section::before {
+                content: "";
+                position: absolute;
+                top: 0; left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+            }
+            @media (max-width: 768px) {
+                .career-center-section {
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center top;
+                }
+            }
+            .career-center-section h2,
+            .career-center-section p {
+                color: #000000;
+            }
+
+            .career-center-section .btn {
+                font-weight: 500;
+                border-radius: 8px;
+            }
+            @media (max-width: 768px) {
+                .modal-dialog {
+                    margin: 1.25rem auto;
+                }
+            }
+
+            .modal-content {
+                border-radius: 1.5rem;
+                border: none;
+            }
+
+            .modal-title {
+                font-size: 1.4rem;
+            }
+
+            .btn-success {
+                background-color: #28a745;
+                border: none;
+            }
+
+            .btn-success:hover {
+                background-color: #218838;
+            }
+            @media (max-width: 768px) {
+                .modal-dialog {
+                    margin: 1.5rem auto;
+                }
+            }
+
+            .modal-content {
+                background: #fff;
+                border-radius: 1.25rem;
+            }
+
+            .modal-title {
+                font-size: 1.25rem;
+            }
+
+            textarea.form-control {
+                resize: vertical;
+                font-size: 1rem;
+            }
+
+            .btn-primary {
+                background-color: #7f67f8;
+                border: none;
+            }
+
+            .btn-primary:hover {
+                background-color: #6e58e0;
+            }
             /* ========== 1. Banner Bölümü ========== */
             .banner {
                 background-color: #f7f7fc;
