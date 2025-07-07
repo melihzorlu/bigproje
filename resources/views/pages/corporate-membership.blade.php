@@ -4,6 +4,7 @@
 
 @section('content')
 
+
     <!-- İçerik Alanı -->
     <section class="corporate-membership-section py-5">
         <div class="container">
