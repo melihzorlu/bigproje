@@ -46,14 +46,14 @@ class AuthController extends Controller
             'last_name' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string|max:20',
-            'tc_no' => 'required|string|size:11',
-            'birth_date' => 'required|date',
+            'tc_no' => 'required|string|size:11|unique:users,tc_no',
+            'birth_date' => 'required|date|before:-18 years',
             'password' => 'required|string|min:6|confirmed',
+            'contract_accepted' => 'required|accepted',
         ]);
 
-        // Gerçek doğrulama entegre edilecekse buraya
+        // Gerçek TC kimlik doğrulaması varsa buraya entegre edilir
         $dogrulandi = true;
-
         if (!$dogrulandi) {
             return back()->withErrors(['tc_no' => 'T.C. Kimlik doğrulaması başarısız.']);
         }
@@ -67,17 +67,13 @@ class AuthController extends Controller
             'birth_date' => $validated['birth_date'],
             'password' => \Hash::make($validated['password']),
             'role' => 'user',
+            'contract_accepted' => true,
         ]);
 
-
-        // Otomatik giriş yap
-        // Otomatik giriş yap
         \Auth::login($user);
 
-// Hoş geldin maili gönder
         \Mail::to($user->email)->send(new \App\Mail\WelcomeMail($user));
 
-// Anasayfaya yönlendir
         return redirect()->intended('/');
     }
 }

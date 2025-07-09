@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\ComplaintCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ComplaintController extends Controller
 {
@@ -130,4 +131,90 @@ class ComplaintController extends Controller
         ]);
 
         return redirect()->route('home')->with('complaint_success', true);    }
+
+    public function videoStep1()
+    {
+        return view('pages.complaint.video-step1');
+    }
+
+    public function videoStore(Request $request)
+    {
+        $videoPath = null;
+
+        // Bilgisayardan gelen base64 video
+        if ($request->has('recorded_video')) {
+            $videoData = $request->input('recorded_video');
+            $video = base64_decode(preg_replace('#^data:video/\w+;base64,#i', '', $videoData));
+            $filename = 'video_' . time() . '.webm';
+            Storage::disk('public')->put('complaints/videos/' . $filename, $video);
+            $videoPath = $filename;
+        }
+
+        // Mobil cihazdan yüklenen video
+        if ($request->hasFile('uploaded_video')) {
+            $file = $request->file('uploaded_video');
+            $filename = 'upload_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/complaints/videos', $filename);
+            $videoPath = $filename;
+        }
+
+        $slug = 'video-' . Str::random(10);
+
+        $complaint = Complaint::create([
+            'user_id' => auth()->id(),
+            'title' => 'Video ile Şikayet',
+            'slug' => $slug,
+            'status' => 'pending',
+            'description' => '',
+            'company_id' => 1
+        ]);
+
+        \App\Models\ComplaintVideo::create([
+            'complaint_id' => $complaint->id,
+            'video_path' => $videoPath
+        ]);
+
+        return redirect()->route('complaints.video.step2', $complaint->id);
+    }
+
+    public function videoStep2($id)
+    {
+        $complaint = Complaint::findOrFail($id);
+        return view('pages.complaint.video-step2', compact('complaint'));
+    }
+
+    public function videoStoreStep2(Request $request, $id)
+    {
+        $request->validate([
+            'description' => 'required|string|max:3000'
+        ]);
+
+        $complaint = Complaint::findOrFail($id);
+        $complaint->update([
+            'description' => $request->description
+        ]);
+
+        return redirect()->route('complaints.video.step3', $complaint->id);
+    }
+
+    public function videoStep3($id)
+    {
+        $complaint = Complaint::findOrFail($id);
+        $companies = Company::orderBy('name')->get();
+        return view('pages.complaint.video-step3', compact('complaint', 'companies'));
+    }
+
+    public function videoComplete(Request $request, $id)
+    {
+        $request->validate([
+            'company_id' => 'required|exists:companies,id'
+        ]);
+
+        $complaint = Complaint::findOrFail($id);
+        $complaint->update([
+            'company_id' => $request->company_id
+        ]);
+
+        return redirect()->route('home')->with('success', 'Deneyiminiz başarıyla sisteme yüklendi.');    }
 }
+

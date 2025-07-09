@@ -296,7 +296,23 @@
         @endif
 
 
+        @if(session('success'))
+            <div id="successPopup" class="position-fixed top-0 start-50 translate-middle-x mt-5 p-4 bg-success text-white rounded shadow" style="z-index:9999; display: none; max-width: 90%;">
+                {{ session('success') }}
+            </div>
 
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const popup = document.getElementById('successPopup');
+                    if (popup) {
+                        popup.style.display = 'block';
+                        setTimeout(() => {
+                            popup.style.display = 'none';
+                        }, 4000); // 4 saniye sonra kapanır
+                    }
+                });
+            </script>
+        @endif
 
         <style>
 

@@ -112,7 +112,7 @@
     <div class="experience-question">Deneyiminizi nasıl iletmek istersiniz?</div>
 
     <div class="experience-options">
-        <a href="{{ route('deneyim.yaz.video') }}" class="experience-option">
+        <a href="{{ route('complaints.video.step1') }}" class="experience-option">
             <img src="{{ asset('images/video-cam.svg') }}" alt="Video ile anlat">
             <span>Video ile anlat</span>
         </a>
