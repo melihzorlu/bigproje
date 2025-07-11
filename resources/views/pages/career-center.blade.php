@@ -36,7 +36,7 @@
         </section>
 
         <!-- CV Hazırlama -->
-        <section class="career-section alt-bg">
+        <section id="cv-hazirlama" class="career-section alt-bg">
             <div class="container">
                 <div class="row align-items-center gy-4 flex-md-row-reverse">
                     <div class="col-md-6">
@@ -53,7 +53,7 @@
         </section>
 
         <!-- Demo Mülakat -->
-        <section class="career-section">
+        <section id="ik-demo-mulakat" class="career-section">
             <div class="container">
                 <div class="row align-items-center gy-4">
                     <div class="col-md-6">
@@ -70,7 +70,7 @@
         </section>
 
         <!-- LinkedIn -->
-        <section class="career-section alt-bg">
+        <section id="linkedin-profil-guncelleme" class="career-section alt-bg">
             <div class="container">
                 <div class="row align-items-center gy-4 flex-md-row-reverse">
                     <div class="col-md-6">
