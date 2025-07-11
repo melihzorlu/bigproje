@@ -10,7 +10,7 @@
 
                 <div class="col-lg-6 pe-0">
                     <div class="position-relative">
-                        <img style="z-index: 100; top: 30px;" src="{{ asset('images/anasayfa-section-1.png') }}" class="img-fluid w-100" alt="home-section">
+                        <img style="z-index: 100; top: 30px;" src="{{ asset('images/anasayfa-section-1.webp') }}" class="img-fluid w-100" alt="home-section">
                     </div>
                 </div>
                 <div class="col-lg-6 ps-5" style="margin-top:1.5rem; ">
