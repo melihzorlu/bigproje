@@ -147,7 +147,7 @@
 
                                     {{-- Görüntülenme Sayısı --}}
                                     <span class="view-count d-inline-flex align-items-center mt-2" style="font-size: 0.85rem; color: #777;">
-                                <img src="{{ asset('images/comment-purple.svg') }}" alt="Yorum" style="width: 18px; height: 18px; margin-right: 4px;">
+                                <img src="{{ asset('images/review-icon.sv') }}" alt="Yorum" style="width: 18px; height: 18px; margin-right: 4px;">
                                 {{ number_format($complaint->view_count ?? 0, 0, ',', '.') }}
                             </span>
                                 </div>
