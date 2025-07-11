@@ -45,16 +45,16 @@
 
             <!-- Firmalar -->
             <div class="col-6 col-sm-3 col-lg-2">
-                <h6 class="fw-bold mb-2" style="color: #636363 !important;">Firmalar</h6>
+                <h6 class="fw-bold mb-2" style="color: #636363 !important;">Kariyer Geliştirme Merkezi </h6>
                 <ul class="list-unstyled mb-0">
                     <li><a style="font-family: 'Metropolis', sans-serif;
-    font-weight: 100;  /* Thin stili için */ color: #636363 !important;" href="#" class="text-white text-decoration-none">Baymak</a></li>
+    font-weight: 100;  /* Thin stili için */ color: #636363 !important;" href="#" class="text-white text-decoration-none"></a>IK Demo İş Mülakatı</li>
                     <li><a style="font-family: 'Metropolis', sans-serif;
-    font-weight: 100;  /* Thin stili için */ color: #636363 !important;" href="#" class="text-white text-decoration-none">Pars Kimya</a></li>
+    font-weight: 100;  /* Thin stili için */ color: #636363 !important;" href="#" class="text-white text-decoration-none"></a>CV Hazırlama</li>
                     <li><a style="font-family: 'Metropolis', sans-serif;
-    font-weight: 100;  /* Thin stili için */ color: #636363 !important;" href="#" class="text-white text-decoration-none">Logitech</a></li>
+    font-weight: 100;  /* Thin stili için */ color: #636363 !important;" href="#" class="text-white text-decoration-none"></a>LinkedIn Hesabı Güncelleme</li>
                     <li><a style="font-family: 'Metropolis', sans-serif;
-    font-weight: 100;  /* Thin stili için */ color: #636363 !important;" href="#" class="text-white text-decoration-none">Decathlon</a></li>
+    font-weight: 100;  /* Thin stili için */ color: #636363 !important;" href="#" class="text-white text-decoration-none"></a>Etkili Sunum Yapma </li>
                 </ul>
             </div>
 
@@ -89,18 +89,6 @@
     font-weight: 100;  /* Thin stili için */ color: #636363 !important;" href="#" class="text-white text-decoration-none">Ücretsiz Mesai</a></li>
                         </ul>
                     </div>
-                    <div class="col-6">
-                        <ul class="list-unstyled mb-0">
-                            <li><a style="font-family: 'Metropolis', sans-serif;
-    font-weight: 100;  /* Thin stili için */ color: #636363 !important;" href="#" class="text-white text-decoration-none">Sigorta</a></li>
-                            <li><a style="font-family: 'Metropolis', sans-serif;
-    font-weight: 100;  /* Thin stili için */ color: #636363 !important;" href="#" class="text-white text-decoration-none">Taciz</a></li>
-                            <li><a style="font-family: 'Metropolis', sans-serif;
-    font-weight: 100;  /* Thin stili için */ color: #636363 !important;" href="#" class="text-white text-decoration-none">İş Sağlığı ve Güvenliği</a></li>
-                            <li><a style="font-family: 'Metropolis', sans-serif;
-    font-weight: 100;  /* Thin stili için */ color: #636363 !important;" href="#" class="text-white text-decoration-none">Diğer</a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
@@ -119,3 +107,4 @@
         </div>
     </div>
 </footer>
+

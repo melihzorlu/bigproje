@@ -318,7 +318,7 @@
 
             .career-center-section {
                 min-height: 100vh;
-                background-image: url("{{ asset('images/career-center-home.svg') }}");
+                background-image: url("{{ asset('images/career-center-home2.svg') }}");
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
