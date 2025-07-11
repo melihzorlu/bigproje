@@ -33,4 +33,12 @@ class Complaint extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+
 }

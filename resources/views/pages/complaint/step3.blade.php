@@ -135,18 +135,28 @@
             <form method="POST" action="{{ route('complaints.step3.store', $complaint->id) }}">
                 @csrf
 
-                <div class="mb-3">
-                    <label for="category_id" class="form-label">Kategori Seçin</label>
-                    <select name="category_id" id="category_id" class="form-select" required>
-                        <option value="">Kategori seçin...</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
-                    </select>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Kategori Seçimi <span class="text-muted">(En fazla 4 adet)</span></label>
+
+                    <div class="category-scroll-box">
+                        <div class="row row-cols-2 row-cols-md-3 g-3">
+                            @foreach($categories as $category)
+                                <div class="col">
+                                    <label class="category-card">
+                                        <input type="checkbox" name="category_ids[]" value="{{ $category->id }}" class="category-checkbox">
+                                        <div class="category-content">
+                                            {{ $category->name }}
+                                        </div>
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="text-danger mt-2" id="limit-warning" style="display: none;">En fazla 4 kategori seçebilirsiniz.</div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="details" class="form-label">Ek Detaylar</label>
+                <div class="mb-4">
+                    <label for="details" class="form-label fw-bold">Ek Detaylar</label>
                     <textarea name="details" id="details" class="form-control" rows="5" placeholder="Eklemek istediğiniz detaylar..."></textarea>
                 </div>
 
@@ -155,9 +165,82 @@
                     <button type="submit" class="btn-next">Tamamla</button>
                 </div>
             </form>
+
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkboxes = document.querySelectorAll('.category-checkbox');
+        const warning = document.getElementById('limit-warning');
 
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                const checkedCount = [...checkboxes].filter(c => c.checked).length;
+                if (checkedCount > 4) {
+                    cb.checked = false;
+                    warning.style.display = 'block';
+                    setTimeout(() => warning.style.display = 'none', 2000);
+                }
+            });
+        });
+    });
+</script>
+<style>
+    .category-scroll-box {
+        max-height: 320px;
+        overflow-y: auto;
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 15px;
+        background-color: #fff;
+    }
+
+    .category-card {
+        display: block;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .category-checkbox {
+        display: none;
+    }
+
+    .category-content {
+        padding: 20px;
+        border: 2px solid transparent;
+        border-radius: 12px;
+        background: #f8f9fa;
+        text-align: center;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .category-card input:checked + .category-content {
+        border-color: #6b5ce3;
+        background-color: #eafff2;
+        color: #6b5ce3;
+        font-weight: bold;
+        box-shadow: 0 0 0 2px #6b5ce3 inset;
+    }
+
+    .category-content:hover {
+        border-color: #d0d0d0;
+    }
+
+    /* Scrollbar uyumlu */
+    .category-scroll-box::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .category-scroll-box::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 6px;
+    }
+
+    .category-scroll-box::-webkit-scrollbar-track {
+        background: transparent;
+    }
+</style>
 </body>
 </html>

@@ -83,17 +83,22 @@
             display: inline-block;
         }
         .btn-next {
-            position: absolute;
-            bottom: 40px;
-            right: 60px;
             background-color: #3ddc84;
             color: white;
             border: none;
             border-radius: 30px;
             padding: 12px 30px;
             font-weight: bold;
+            margin-top: 30px;
+            align-self: flex-end;
         }
-
+        @media (max-width: 768px) {
+            .btn-next {
+                width: 100%;
+                align-self: center;
+                text-align: center;
+            }
+        }
         #file-preview {
             display: flex;
             flex-wrap: wrap;
@@ -101,13 +106,11 @@
             margin-top: 20px;
             justify-content: flex-start;
         }
-
         .preview-item {
             position: relative;
             width: 100px;
             height: 100px;
         }
-
         .preview-item img, .file-box {
             width: 100%;
             height: 100%;
@@ -120,7 +123,6 @@
             justify-content: center;
             font-weight: bold;
         }
-
         .remove-btn {
             position: absolute;
             top: -8px;
@@ -136,7 +138,13 @@
             font-size: 14px;
             cursor: pointer;
         }
-
+        .char-counter {
+            font-size: 14px;
+            color: #888;
+            text-align: right;
+            margin-top: -15px;
+            margin-bottom: 15px;
+        }
         @media (max-width: 768px) {
             .experience-container {
                 flex-direction: column;
@@ -172,19 +180,14 @@
         <form action="{{ route('complaints.store.step1') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <input type="text" name="title" id="title" class="custom-input" placeholder="Şikayetinize bir başlık verin" required>
+            <input type="text" name="title" id="title" class="custom-input" placeholder="Deneyeminize bir başlık verin" required>
 
-            <textarea name="description" class="custom-input" placeholder="Ürün veya hizmetle ilgili nasıl bir sorun yaşadınız?" required></textarea>
+            <textarea name="description" id="description" minlength="270" class="custom-input" placeholder="Lütfen bizimle deneyiminizi paylaşın..." required></textarea>
+            <div class="char-counter"><span id="char-count">0</span> karakter </div>
 
             <div class="file-upload-box mt-3">
-                <input type="file"
-                       name="files[]"
-                       id="files"
-                       accept=".jpg,.jpeg,.png,.webp,.pdf"
-                       multiple
-                       style="display: none;">
+                <input type="file" name="files[]" id="files" accept=".jpg,.jpeg,.png,.webp,.pdf" multiple style="display: none;">
                 <label for="files" class="btn-upload">+ Görsel/PDF Ekle</label>
-
                 <div id="file-preview" class="mt-3"></div>
             </div>
 
@@ -194,9 +197,18 @@
 </div>
 
 <script>
+    const descriptionInput = document.getElementById('description');
+    const charCount = document.getElementById('char-count');
+
+    descriptionInput.addEventListener('input', function () {
+        const typed = 0 + this.value.length;
+        charCount.textContent = typed;
+    });
+
     document.getElementById('files').addEventListener('change', function (e) {
         const previewArea = document.getElementById('file-preview');
         previewArea.innerHTML = '';
+
         const files = Array.from(e.target.files);
         const title = document.getElementById('title').value || 'baslik';
         const userId = {{ auth()->id() ?? 0 }};
@@ -233,6 +245,8 @@
             wrapper.appendChild(removeBtn);
             previewArea.appendChild(wrapper);
         });
+
+        // reset input to allow re-selection
 
         function slugify(str) {
             return str.toString().toLowerCase()

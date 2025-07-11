@@ -9,9 +9,5 @@ class ComplaintFile extends Model
 {
     public $timestamps = false; // 🔧 Bu satırı ekle
 
-    protected $fillable = [
-        'complaint_id',
-        'reply',
-        'employer_id',
-    ];
+    protected $fillable = ['complaint_id', 'reply', 'employer_id', 'created_at'];
 }
