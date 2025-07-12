@@ -119,7 +119,7 @@ class ComplaintController extends Controller
             ]);
         } else {
             $rules['company_id'] .= '|exists:companies,id';
-            $rules['branch_id'] = 'required|exists:branches,id';
+            $rules['branch_id'] = 'nullable|exists:branches,id';
         }
 
         $validated = $request->validate($rules);

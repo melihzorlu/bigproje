@@ -6,38 +6,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background: #f5f6fa; font-family: 'Segoe UI', sans-serif; margin: 0; }
-        .experience-container { display: flex; min-height: 100vh; }
+        body {
+            margin: 0;
+            background: #f5f6fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .experience-container {
+            display: flex;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
         .left-panel {
-            width: 280px; background: #272635; color: white;
-            padding: 40px 20px; border-top-right-radius: 40px; border-bottom-right-radius: 40px;
+            width: 280px;
+            background: #272635;
+            color: white;
+            padding: 40px 20px;
+            border-top-right-radius: 40px;
+            border-bottom-right-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
-        .left-panel img { height: 40px; margin-bottom: 40px; }
-        .left-panel ul { list-style: none; padding: 0; margin-top: 30px; }
-        .left-panel li { margin-bottom: 15px; font-size: 15px; }
-        .left-panel li.active { color: #3ddc84; font-weight: bold; }
+
+        .left-panel img {
+            height: 40px;
+            margin-bottom: 40px;
+        }
+
+        .left-panel h5 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .left-panel ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .left-panel li {
+            margin-bottom: 15px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .left-panel li.active {
+            color: #3ddc84;
+            font-weight: bold;
+        }
+
         .right-panel {
-            flex: 1; padding: 80px 60px;
+            flex: 1;
+            padding: 80px 60px;
             background: linear-gradient(to bottom right, #f7f8fd, #f5f6fa);
-            border-top-right-radius: 40px; border-bottom-right-radius: 40px;
-            display: flex; flex-direction: column; justify-content: center;
+            border-top-right-radius: 40px;
+            border-bottom-right-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
         }
-        .form-label { font-weight: 600; margin-bottom: 8px; }
-        .form-control { border-radius: 15px; padding: 12px 16px; }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 15px;
+            padding: 12px 16px;
+            font-size: 15px;
+        }
 
         .btn-back {
-            background: #ddd; color: black; font-weight: bold;
-            padding: 12px 30px; border-radius: 30px; border: none; margin-top: 20px;
+            background: #ddd;
+            color: black;
+            font-weight: bold;
+            padding: 12px 30px;
+            border-radius: 30px;
+            border: none;
+            margin-top: 20px;
+            text-decoration: none;
+            display: inline-block;
         }
+
         .btn-next {
-            background: #3ddc84; color: white; font-weight: bold;
-            padding: 12px 30px; border-radius: 30px; border: none; margin-top: 20px;
+            background: #3ddc84;
+            color: white;
+            font-weight: bold;
+            padding: 12px 30px;
+            border-radius: 30px;
+            border: none;
+            margin-top: 20px;
             align-self: flex-end;
         }
 
         @media (max-width: 768px) {
-            .experience-container { flex-direction: column; }
-            .left-panel, .right-panel { border-radius: 0; padding: 40px 20px; text-align: center; }
+            .experience-container {
+                flex-direction: column;
+                min-height: auto;
+            }
+
+            .left-panel {
+                width: 100%;
+                border-radius: 0;
+                text-align: center;
+                align-items: center;
+                padding: 40px 20px 30px 20px;
+            }
+
+            .left-panel h5 {
+                font-size: 22px;
+            }
+
+            .left-panel ul {
+                margin-top: 20px;
+            }
+
+            .left-panel li {
+                font-size: 16px;
+            }
+
+            .right-panel {
+                border-radius: 0;
+                padding: 30px 20px;
+            }
+
+            .btn-next,
+            .btn-back {
+                width: 100%;
+                text-align: center;
+            }
+
+            .form-control,
+            .form-select {
+                font-size: 14px;
+                padding: 10px 14px;
+            }
         }
     </style>
 </head>
@@ -75,7 +184,7 @@
             <!-- Şube Seçimi -->
             <div id="branch-area" class="mb-3" style="{{ old('company_id', $complaint->company_id) === 'new' ? 'display:none;' : '' }}">
                 <label for="branch_id">Şube Seçiniz</label>
-                <select name="branch_id" id="branch_id" class="form-select" required data-selected="{{ old('branch_id', $complaint->branch_id) }}">                    <option value="">Şube seçiniz</option>
+                <select name="branch_id" id="branch_id" class="form-select"  data-selected="{{ old('branch_id', $complaint->branch_id) }}">                    <option value="">Şube seçiniz</option>
                     @foreach ($branches as $branch)
                         <option value="{{ $branch->id }}" {{ old('branch_id', $complaint->branch_id) == $branch->id ? 'selected' : '' }}>
                             {{ $branch->name }} - {{ $branch->address }}

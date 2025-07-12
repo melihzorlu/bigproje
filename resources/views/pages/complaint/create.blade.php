@@ -12,10 +12,12 @@
             background: #f5f6fa;
             font-family: 'Segoe UI', sans-serif;
         }
+
         .experience-container {
             display: flex;
             min-height: 100vh;
         }
+
         .left-panel {
             width: 280px;
             background: #272635;
@@ -24,23 +26,28 @@
             border-top-right-radius: 40px;
             border-bottom-right-radius: 40px;
         }
+
         .left-panel img {
             height: 40px;
             margin-bottom: 40px;
         }
+
         .left-panel h5 {
             font-size: 20px;
             font-weight: bold;
         }
+
         .left-panel ul {
             list-style: none;
             padding: 0;
             margin-top: 30px;
         }
+
         .left-panel li {
             margin-bottom: 15px;
             font-size: 15px;
         }
+
         .right-panel {
             flex: 1;
             padding: 80px 60px;
@@ -51,7 +58,10 @@
             flex-direction: column;
             justify-content: center;
             position: relative;
+            overflow-y: auto;
+            max-height: 100vh;
         }
+
         .custom-input {
             background-color: white;
             border-radius: 20px;
@@ -61,10 +71,12 @@
             font-size: 16px;
             margin-bottom: 20px;
         }
+
         textarea.custom-input {
             height: 180px;
             resize: none;
         }
+
         .file-upload-box {
             margin-top: 10px;
             border: 2px dashed #a58fff;
@@ -72,6 +84,7 @@
             padding: 30px;
             text-align: center;
         }
+
         .btn-upload {
             background: #7f67f8;
             color: #fff;
@@ -82,6 +95,7 @@
             cursor: pointer;
             display: inline-block;
         }
+
         .btn-next {
             background-color: #3ddc84;
             color: white;
@@ -92,13 +106,7 @@
             margin-top: 30px;
             align-self: flex-end;
         }
-        @media (max-width: 768px) {
-            .btn-next {
-                width: 100%;
-                align-self: center;
-                text-align: center;
-            }
-        }
+
         #file-preview {
             display: flex;
             flex-wrap: wrap;
@@ -106,11 +114,13 @@
             margin-top: 20px;
             justify-content: flex-start;
         }
+
         .preview-item {
             position: relative;
             width: 100px;
             height: 100px;
         }
+
         .preview-item img, .file-box {
             width: 100%;
             height: 100%;
@@ -123,6 +133,7 @@
             justify-content: center;
             font-weight: bold;
         }
+
         .remove-btn {
             position: absolute;
             top: -8px;
@@ -138,6 +149,7 @@
             font-size: 14px;
             cursor: pointer;
         }
+
         .char-counter {
             font-size: 14px;
             color: #888;
@@ -145,18 +157,61 @@
             margin-top: -15px;
             margin-bottom: 15px;
         }
+
         @media (max-width: 768px) {
             .experience-container {
                 flex-direction: column;
             }
+
             .left-panel {
                 width: 100%;
                 border-radius: 0;
                 text-align: center;
+                padding: 20px 15px;
             }
+
             .right-panel {
                 border-radius: 0;
-                padding: 40px 20px;
+                padding: 30px 20px;
+            }
+
+            .custom-input {
+                padding: 16px;
+                font-size: 15px;
+            }
+
+            textarea.custom-input {
+                height: 150px;
+            }
+
+            .file-upload-box {
+                padding: 20px 15px;
+            }
+
+            .preview-item {
+                width: 80px;
+                height: 80px;
+            }
+
+            .remove-btn {
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+                top: -6px;
+                right: -6px;
+            }
+
+            .btn-next {
+                width: 100%;
+                align-self: center;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .char-counter {
+                margin-top: -10px;
+                margin-bottom: 10px;
+                font-size: 13px;
             }
         }
     </style>
