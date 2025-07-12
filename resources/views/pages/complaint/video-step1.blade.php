@@ -5,43 +5,125 @@
     <title>Video ile Anlat</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        body { margin: 0; background: #f5f6fa; font-family: 'Segoe UI', sans-serif; }
-        .experience-container { display: flex; min-height: 100vh; }
+        body {
+            margin: 0;
+            background: #f5f6fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .experience-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
         .left-panel {
-            width: 280px; background: #272635; color: white; padding: 40px 20px;
-            border-top-right-radius: 40px; border-bottom-right-radius: 40px;
+            width: 280px;
+            background: #272635;
+            color: white;
+            padding: 40px 20px;
+            border-top-right-radius: 40px;
+            border-bottom-right-radius: 40px;
         }
-        .left-panel img { height: 40px; margin-bottom: 40px; }
-        .left-panel ul { list-style: none; padding: 0; margin-top: 30px; }
-        .left-panel li { margin-bottom: 15px; font-size: 15px; }
-        .left-panel li.active { color: #3ddc84; font-weight: bold; }
+
+        .left-panel img {
+            height: 40px;
+            margin-bottom: 40px;
+        }
+
+        .left-panel ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 30px;
+        }
+
+        .left-panel li {
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .left-panel li.active {
+            color: #3ddc84;
+            font-weight: bold;
+        }
+
         .right-panel {
-            flex: 1; padding: 60px; background: linear-gradient(to bottom right, #f7f8fd, #f5f6fa);
-            border-top-right-radius: 40px; border-bottom-right-radius: 40px;
-            display: flex; flex-direction: column; justify-content: center;
+            flex: 1;
+            padding: 60px;
+            background: linear-gradient(to bottom right, #f7f8fd, #f5f6fa);
+            border-top-right-radius: 40px;
+            border-bottom-right-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
+
         .form-box {
-            background-color: white; border-radius: 20px; padding: 2rem;
+            background-color: white;
+            border-radius: 20px;
+            padding: 2rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
+
         .recorder-modal {
-            background: #f8f9fa; padding: 20px; border-radius: 12px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        .recorder-modal video, #selectedPreview {
-            width: 100%; border-radius: 10px; margin-top: 15px;
+
+        .recorder-modal video {
+            width: 100%;
+            border-radius: 10px;
         }
-        .controls { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+
+        .recorder-modal .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
         @media (max-width: 768px) {
-            .experience-container { flex-direction: column; }
-            .left-panel { width: 100%; border-radius: 0; text-align: center; }
-            .right-panel { padding: 30px 20px; border-radius: 0; }
-            .controls { flex-direction: column; }
+            .experience-container {
+                flex-direction: column;
+            }
+
+            .left-panel {
+                width: 100%;
+                border-radius: 0;
+                text-align: center;
+            }
+
+            .right-panel {
+                padding: 30px 20px;
+                border-radius: 0;
+            }
+
+            .recorder-modal .controls {
+                flex-direction: column;
+            }
+
+            #videoPreviewBox {
+                margin-top: 20px;
+                display: none;
+            }
+
+            #videoPreviewBox video {
+                width: 100%;
+                border-radius: 10px;
+                margin-bottom: 15px;
+            }
+
+            #continueBtn {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
+
 <div class="experience-container">
     <!-- Sol Panel -->
     <div class="left-panel">
@@ -65,55 +147,23 @@
                 @csrf
                 <input type="hidden" name="recorded_video" id="videoData">
 
-                <!-- Galeriden veya Kameradan Seç -->
-                <div class="form-group mb-3">
+                <div class="form-group mb-4">
                     <label for="upload-gallery" class="btn btn-outline-secondary w-100">
                         Galeriden veya Kameradan Video Seç
                     </label>
                     <input id="upload-gallery" type="file" name="uploaded_video" accept="video/*" style="display:none;">
-                    <video id="selectedPreview" controls style="display:none;"></video>
                 </div>
 
                 <p class="text-center my-3">veya</p>
 
-                <!-- Tarayıcı ile Kayıt -->
                 <button type="button" class="btn btn-outline-primary w-100" onclick="openRecorder()">Tarayıcı ile Video Kaydet</button>
-
+                <div id="videoPreviewBox">
+                    <video id="videoPreview" controls></video>
+                </div>
                 <button type="submit" class="btn btn-success w-100 mt-4">Devam Et</button>
             </form>
-            <!-- Video Eksik Uyarı Modali -->
-            <div class="modal fade" id="videoWarningModal" tabindex="-1" aria-labelledby="videoWarningModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="videoWarningModalLabel">Uyarı</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
-                        </div>
-                        <div class="modal-body">
-                            Lütfen bir video çekin veya galeriden bir video seçin.
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tamam</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <script>
-                // ... önceki video kaydetme script'inin altına şunu ekle:
 
-                document.getElementById('uploadForm').addEventListener('submit', function (e) {
-                    const recordedVideo = document.getElementById('videoData').value;
-                    const uploadedVideo = document.getElementById('upload-gallery').files.length;
-
-                    if (!recordedVideo && uploadedVideo === 0) {
-                        e.preventDefault();
-
-                        const videoModal = new bootstrap.Modal(document.getElementById('videoWarningModal'));
-                        videoModal.show();
-                    }
-                });
-            </script>
-            <!-- Kaydedici -->
+            <!-- Video Kaydetme Alanı -->
             <div id="recorderModal" class="recorder-modal mt-4" style="display:none;">
                 <video id="preview" autoplay muted playsinline></video>
                 <div class="controls">
@@ -130,14 +180,29 @@
     let mediaRecorder;
     let recordedChunks = [];
 
+    const recorderModal = document.getElementById('recorderModal');
+    const videoPreview = document.getElementById('videoPreview');
+    const videoPreviewBox = document.getElementById('videoPreviewBox');
+    const continueBtn = document.getElementById('continueBtn');
+
+    // Galeriden video seçildiğinde önizle
+    document.getElementById('upload-gallery').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const url = URL.createObjectURL(file);
+            videoPreview.src = url;
+            videoPreviewBox.style.display = 'block';
+            continueBtn.style.display = 'block';
+        }
+    });
+
     function openRecorder() {
-        document.getElementById('recorderModal').style.display = 'block';
-        window.scrollTo({ top: document.getElementById('recorderModal').offsetTop - 100, behavior: 'smooth' });
+        recorderModal.style.display = 'block';
+        window.scrollTo({ top: recorderModal.offsetTop - 100, behavior: 'smooth' });
     }
 
     function closeRecorder() {
-        document.getElementById('recorderModal').style.display = 'none';
-        if (mediaRecorder?.state === "recording") mediaRecorder.stop();
+        recorderModal.style.display = 'none';
     }
 
     document.getElementById('startBtn').onclick = async () => {
@@ -154,25 +219,15 @@
         mediaRecorder.onstop = () => {
             const blob = new Blob(recordedChunks, { type: 'video/webm' });
             const url = URL.createObjectURL(blob);
-            const tempVideo = document.createElement('video');
+            videoPreview.src = url;
+            videoPreviewBox.style.display = 'block';
+            continueBtn.style.display = 'block';
 
-            tempVideo.onloadedmetadata = function () {
-                const duration = tempVideo.duration;
-                if (duration < 45 || duration > 180) {
-                    alert("Kayıt süresi 45 saniye ile 3 dakika arasında olmalıdır.");
-                    window.location.reload();
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onloadend = function () {
-                    document.getElementById('videoData').value = reader.result;
-                    document.getElementById('uploadForm').submit();
-                };
-                reader.readAsDataURL(blob);
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = function () {
+                document.getElementById('videoData').value = reader.result;
             };
-
-            tempVideo.src = url;
         };
 
         mediaRecorder.start();
@@ -181,41 +236,14 @@
 
         setTimeout(() => {
             if (mediaRecorder.state === "recording") mediaRecorder.stop();
-        }, 180000); // max 3 dakika
+        }, 150000);
     };
 
     document.getElementById('stopBtn').onclick = () => {
         mediaRecorder.stop();
         document.getElementById('stopBtn').style.display = 'none';
     };
-
-    // Galeriden video seçimi kontrolü
-    document.getElementById('upload-gallery').addEventListener('change', function (e) {
-        const file = e.target.files[0];
-        const preview = document.getElementById('selectedPreview');
-
-        if (file && file.type.startsWith('video/')) {
-            const url = URL.createObjectURL(file);
-            preview.src = url;
-            preview.style.display = 'block';
-
-            const tempVideo = document.createElement('video');
-            tempVideo.preload = 'metadata';
-            tempVideo.onloadedmetadata = function () {
-                const duration = tempVideo.duration;
-                if (duration < 45 || duration > 180) {
-                    alert("Video süresi 45 saniye ile 3 dakika arasında olmalıdır.");
-                    document.getElementById('upload-gallery').value = '';
-                    preview.style.display = 'none';
-                }
-            };
-            tempVideo.src = url;
-        } else {
-            alert("Lütfen yalnızca video dosyası yükleyin.");
-            this.value = '';
-        }
-    });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

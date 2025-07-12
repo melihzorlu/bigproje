@@ -242,8 +242,7 @@
             <textarea name="description" id="description" minlength="270" class="custom-input" placeholder="Lütfen bizimle deneyiminizi paylaşın..." required></textarea>
             <div class="char-counter"><span id="char-count">0</span> karakter </div>
             <div class="file-upload-box mt-3">
-                <input type="file" name="files[]" id="files" accept=".jpg,.jpeg,.png,.webp,.pdf" multiple style="display: none;">
-                <label for="files" class="btn-upload">+ Görsel/PDF Ekle</label>
+                <input type="file" name="files[]" id="files" accept=".jpg,.jpeg,.png,.webp,.pdf" multiple style="display: none;">                <label for="files" class="btn-upload">+ Görsel/PDF Ekle</label>
                 <div id="file-preview" class="mt-3"></div>
             </div>
             <div class="form-check mt-4">
@@ -283,42 +282,46 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    const fileInput = document.getElementById('files');
+    const previewArea = document.getElementById('file-preview');
+    const form = document.getElementById('experienceForm');
+    const checkbox = document.getElementById('confirmationCheckbox');
+    let allFiles = [];
+
+    // Karakter sayacı
     document.getElementById('description').addEventListener('input', function () {
         document.getElementById('char-count').textContent = this.value.length;
     });
 
-    document.getElementById('experienceForm').addEventListener('submit', function (e) {
-        if (!document.getElementById('confirmationCheckbox').checked) {
-            e.preventDefault();
-            new bootstrap.Modal(document.getElementById('infoModal')).show();
-        }
-    });
-
-    document.getElementById('files').addEventListener('change', function (e) {
-        const previewArea = document.getElementById('file-preview');
-        previewArea.innerHTML = '';
-
-        const files = Array.from(e.target.files);
+    // Dosya seçimi yapıldığında
+    fileInput.addEventListener('change', function (e) {
+        const newFiles = Array.from(e.target.files);
         const title = document.getElementById('title').value || 'baslik';
         const userId = {{ auth()->id() ?? 0 }};
         const dateStr = new Date().toISOString().split('T')[0];
 
-        files.forEach((file, index) => {
-            if (file.size > 5 * 1024 * 1024) {
-                previewArea.innerHTML += `<div style="color:red">${file.name} 5MB'den büyük!</div>`;
+        newFiles.forEach((file, index) => {
+            // Aynı dosya daha önce eklendiyse tekrar ekleme
+            if (allFiles.find(f => f.name === file.name && f.size === file.size)) return;
+
+            if (file.size > 15 * 1024 * 1024) {
+                previewArea.innerHTML += `<div style="color:red">${file.name} 15MB'den büyük!</div>`;
                 return;
             }
 
-            const ext = file.name.split('.').pop();
-            const newFileName = `${userId}_${dateStr}_${slugify(title)}_${index}.${ext}`;
+            allFiles.push(file);
 
+            const ext = file.name.split('.').pop();
             const wrapper = document.createElement('div');
             wrapper.classList.add('preview-item');
 
             const removeBtn = document.createElement('button');
             removeBtn.classList.add('remove-btn');
             removeBtn.innerHTML = '&times;';
-            removeBtn.onclick = () => wrapper.remove();
+            removeBtn.onclick = () => {
+                wrapper.remove();
+                allFiles = allFiles.filter(f => f !== file);
+            };
 
             if (file.type.startsWith('image/')) {
                 const img = document.createElement('img');
@@ -335,15 +338,55 @@
             previewArea.appendChild(wrapper);
         });
 
-        function slugify(str) {
-            return str.toString().toLowerCase()
-                .replace(/\s+/g, '-')
-                .replace(/[^\w\-]+/g, '')
-                .replace(/\-\-+/g, '-')
-                .replace(/^-+/, '')
-                .replace(/-+$/, '');
-        }
+        // Aynı inputtan tekrar dosya seçmeye izin vermek için sıfırla
+        fileInput.value = '';
     });
+
+    // Form gönderimi
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        if (!checkbox.checked) {
+            new bootstrap.Modal(document.getElementById('infoModal')).show();
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('_token', '{{ csrf_token() }}');
+        formData.append('title', document.getElementById('title').value);
+        formData.append('description', document.getElementById('description').value);
+
+        allFiles.forEach((file) => {
+            formData.append('files[]', file);
+        });
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else if (response.ok) {
+                    alert("Başarıyla gönderildi.");
+                } else {
+                    return response.text().then(text => alert("Hata oluştu: " + text));
+                }
+            })
+            .catch(error => {
+                alert("Gönderim sırasında hata oluştu: " + error.message);
+            });
+    });
+
+    // Slugify yardımcı fonksiyonu (şimdilik sadece filename için gerekliydi)
+    function slugify(str) {
+        return str.toString().toLowerCase()
+            .replace(/\s+/g, '-')           // Boşlukları tire yap
+            .replace(/[^\w\-]+/g, '')       // Alfanumerik olmayanları kaldır
+            .replace(/\-\-+/g, '-')         // Ardışık tireleri tek yap
+            .replace(/^-+/, '')             // Baştaki tireleri kaldır
+            .replace(/-+$/, '');            // Sondaki tireleri kaldır
+    }
 </script>
 
 </body>

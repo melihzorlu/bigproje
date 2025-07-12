@@ -260,6 +260,8 @@
     </div>
 </div>
 
+<<!-- ...head içeriği aynı kalıyor... -->
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const companySelect = document.getElementById('company_id');
@@ -297,21 +299,35 @@
             companySelect.dispatchEvent(new Event('change'));
         }
 
-        // Dosya yükleme ve önizleme
+        // ==== Dosya Seçimi ve Önizleme ====
         const filesInput = document.getElementById('files');
         const previewArea = document.getElementById('file-preview');
+        let allFiles = [];
 
         filesInput.addEventListener('change', function () {
-            previewArea.innerHTML = '';
-            const files = Array.from(this.files);
-            files.forEach((file, index) => {
+            const newFiles = Array.from(this.files);
+
+            newFiles.forEach(file => {
+                if (file.size > 15 * 1024 * 1024) {
+                    alert(`${file.name} 15MB'den büyük!`);
+                    return;
+                }
+
+                if (allFiles.find(f => f.name === file.name && f.size === file.size)) return;
+
+                allFiles.push(file);
+
                 const wrapper = document.createElement('div');
                 wrapper.classList.add('preview-item');
 
                 const removeBtn = document.createElement('button');
                 removeBtn.classList.add('remove-btn');
                 removeBtn.innerHTML = '&times;';
-                removeBtn.onclick = () => wrapper.remove();
+                removeBtn.onclick = () => {
+                    wrapper.remove();
+                    allFiles = allFiles.filter(f => f !== file);
+                    updateFileList();
+                };
 
                 if (file.type.startsWith('image/')) {
                     const img = document.createElement('img');
@@ -327,15 +343,25 @@
                 wrapper.appendChild(removeBtn);
                 previewArea.appendChild(wrapper);
             });
-        });
-    });
 
-    document.querySelector('form').addEventListener('submit', function (e) {
-        const checkbox = document.getElementById('approvalCheckbox');
-        if (!checkbox.checked) {
-            e.preventDefault();
-            alert("Lütfen onay kutusunu işaretleyiniz.");
+            updateFileList();
+            filesInput.value = '';
+        });
+
+        function updateFileList() {
+            const dataTransfer = new DataTransfer();
+            allFiles.forEach(f => dataTransfer.items.add(f));
+            filesInput.files = dataTransfer.files;
         }
+
+        // Onay kutusu kontrolü
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const checkbox = document.getElementById('approvalCheckbox');
+            if (!checkbox.checked) {
+                e.preventDefault();
+                alert("Lütfen onay kutusunu işaretleyiniz.");
+            }
+        });
     });
 </script>
 </body>
