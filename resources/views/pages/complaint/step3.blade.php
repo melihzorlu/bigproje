@@ -184,7 +184,7 @@
             <form method="POST" action="{{ route('complaints.step3.store', $complaint->id) }}">
                 @csrf
                 <div class="mb-4">
-                    <label class="form-label fw-bold">Kategori Seçimi <span class="text-muted">(En fazla 4 adet)</span></label>
+                    <label class="form-label fw-bold">Kategori Seçimi <span class="text-muted">(En fazla 8 adet)</span></label>
                     <div class="category-scroll-box">
                         <div class="row row-cols-2 row-cols-md-3 g-3">
                             @foreach($categories as $category)
@@ -199,7 +199,7 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="text-danger mt-2" id="limit-warning" style="display: none;">En fazla 4 kategori seçebilirsiniz.</div>
+                    <div class="text-danger mt-2" id="limit-warning" style="display: none;">En fazla 8 kategori seçebilirsiniz.</div>
                 </div>
                 <div class="mb-4">
                     <label for="details" class="form-label fw-bold">Ek Detaylar</label>
@@ -220,7 +220,7 @@
         checkboxes.forEach(cb => {
             cb.addEventListener('change', () => {
                 const checkedCount = [...checkboxes].filter(c => c.checked).length;
-                if (checkedCount > 4) {
+                if (checkedCount > 8) {
                     cb.checked = false;
                     warning.style.display = 'block';
                     setTimeout(() => warning.style.display = 'none', 2000);

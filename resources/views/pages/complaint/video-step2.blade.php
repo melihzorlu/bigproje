@@ -82,6 +82,60 @@
                 border-radius: 0;
             }
         }
+
+        .category-scroll-box {
+            max-height: 320px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            background-color: #fff;
+        }
+
+        .category-card {
+            display: block;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .category-checkbox {
+            display: none;
+        }
+
+        .category-content {
+            padding: 20px;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            background: #f8f9fa;
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .category-card input:checked + .category-content {
+            border-color: #6b5ce3;
+            background-color: #eafff2;
+            color: #6b5ce3;
+            font-weight: bold;
+            box-shadow: 0 0 0 2px #6b5ce3 inset;
+        }
+
+        .category-content:hover {
+            border-color: #d0d0d0;
+        }
+
+        .category-scroll-box::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .category-scroll-box::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 6px;
+        }
+
+        .category-scroll-box::-webkit-scrollbar-track {
+            background: transparent;
+        }
     </style>
 </head>
 <body>
@@ -104,11 +158,43 @@
     <div class="right-panel">
         <div class="form-box">
             <h4 class="mb-4 text-center">Şikayet Açıklaması</h4>
+
             <form method="POST" action="{{ route('complaints.video.step2.store', $complaint->id) }}">
                 @csrf
-                <div class="form-group mb-3">
-                    <textarea name="description" class="form-control" rows="8" placeholder="Yaşadığınız sorunu detaylıca anlatınız..." required>{{ old('description', $complaint->description) }}</textarea>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Kategori Seçimi <span class="text-muted">(En fazla 8 adet)</span></label>
+                    <div class="category-scroll-box">
+                        <div class="row row-cols-2 row-cols-md-3 g-3">
+                            @foreach($categories as $category)
+                                <div class="col">
+                                    <label class="category-card">
+                                        <input type="checkbox" name="category_ids[]" value="{{ $category->id }}" class="category-checkbox">
+                                        <div class="category-content">
+                                            {{ $category->name }}
+                                        </div>
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="text-danger mt-2" id="limit-warning" style="display: none;">En fazla 8 kategori seçebilirsiniz.</div>
                 </div>
+
+                <!-- Başlık Alanı -->
+                <div class="form-group mb-3">
+                    <label for="title">Başlık</label>
+                    <input type="text" name="title" id="title" class="form-control"
+                           placeholder="Kısaca başlık ekleyiniz (örneğin: Maaş eksik yatırıldı)"
+                           value="{{ old('title', $complaint->title) }}" required>
+                </div>
+
+                <!-- Açıklama Alanı -->
+                <div class="form-group mb-3">
+                    <label for="description">Açıklama</label>
+                    <textarea name="description" id="description" class="form-control" rows="8"
+                              placeholder="Yaşadığınız sorunu detaylıca anlatınız..." required>{{ old('description', $complaint->description) }}</textarea>
+                </div>
+
                 <div class="text-end">
                     <button type="submit" class="btn btn-success">Devam Et →</button>
                 </div>
@@ -118,4 +204,20 @@
 </div>
 
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkboxes = document.querySelectorAll('.category-checkbox');
+        const warning = document.getElementById('limit-warning');
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                const checkedCount = [...checkboxes].filter(c => c.checked).length;
+                if (checkedCount > 8) {
+                    cb.checked = false;
+                    warning.style.display = 'block';
+                    setTimeout(() => warning.style.display = 'none', 2000);
+                }
+            });
+        });
+    });
+</script>
 </html>

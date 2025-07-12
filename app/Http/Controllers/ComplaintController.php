@@ -260,18 +260,32 @@ class ComplaintController extends Controller
     public function videoStep2($id)
     {
         $complaint = Complaint::findOrFail($id);
-        return view('pages.complaint.video-step2', compact('complaint'));
+        $categories = \App\Models\Category::orderBy('name')->get();
+
+        return view('pages.complaint.video-step2', compact('complaint', 'categories'));
     }
 
     public function videoStoreStep2(Request $request, $id)
     {
         $request->validate([
+            'category_ids' => 'required|array|min:1|max:4',
+            'category_ids.*' => 'exists:categories,id',
+            'details' => 'nullable|string',
             'description' => 'required|string|max:3000'
         ]);
 
+
+        foreach ($request->category_ids as $categoryId) {
+            ComplaintCategory::create([
+                'complaint_id' => $id,
+                'category_id' => $categoryId,
+            ]);
+        }
+
         $complaint = Complaint::findOrFail($id);
         $complaint->update([
-            'description' => $request->description
+            'description' => $request->description,
+            'title' => $request->title
         ]);
 
         return redirect()->route('complaints.video.step3', $complaint->id);
@@ -297,6 +311,7 @@ class ComplaintController extends Controller
 
         $rules = [
             'company_id' => 'required',
+            'files.*' => 'nullable|file|mimes:jpg,jpeg,png,webp,pdf|max:5120',
         ];
 
         // Yeni firma ekleniyorsa
@@ -316,7 +331,7 @@ class ComplaintController extends Controller
 
         $validated = $request->validate($rules);
 
-        // Eğer yeni firma ekleniyorsa
+        // Yeni firma mı?
         if ($request->company_id === 'new') {
             $existingCompany = Company::where('tax_number', $request->new_tax_number)->first();
 
@@ -343,12 +358,41 @@ class ComplaintController extends Controller
             $complaint->branch_id = $branch->id;
 
         } else {
-            // Mevcut firma seçildiyse
+            // Mevcut firma seçimi
             $complaint->company_id = $request->company_id;
             $complaint->branch_id = $request->branch_id ?? null;
         }
 
         $complaint->save();
+
+        // 🔽 Dosya yükleme işlemi
+        $files = $request->file('files');
+        if (is_array($files)) {
+            $userId = auth()->id();
+            $slug = $complaint->slug ?? Str::slug($complaint->title ?? 'deneyim');
+            $dateStr = now()->format('Y-m-d');
+            $index = 1;
+
+            foreach ($files as $file) {
+                if ($file->isValid()) {
+                    $ext = $file->getClientOriginalExtension();
+                    $newName = "{$userId}_{$dateStr}_{$slug}_{$index}.{$ext}";
+
+                    // public/complaint_files dizinine kaydet
+                    $path = $file->storeAs('complaint_files', $newName, 'public');
+
+                    // Veritabanına kaydet
+                    ComplaintFile::create([
+                        'complaint_id' => $complaint->id,
+                        'reply' => $path,
+                        'employer_id' => $userId,
+                        'created_at' => now(),
+                    ]);
+
+                    $index++;
+                }
+            }
+        }
 
         return redirect()->route('home')->with('complaint_success', 'Deneyiminiz başarıyla sisteme yüklendi.');
     }

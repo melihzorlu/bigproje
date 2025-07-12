@@ -158,6 +158,10 @@
             margin-bottom: 15px;
         }
 
+        .form-check {
+            margin-top: 20px;
+        }
+
         @media (max-width: 768px) {
             .experience-container {
                 flex-direction: column;
@@ -232,32 +236,62 @@
     </div>
 
     <div class="right-panel">
-        <form action="{{ route('complaints.store.step1') }}" method="POST" enctype="multipart/form-data">
+        <form id="experienceForm" action="{{ route('complaints.store.step1') }}" method="POST" enctype="multipart/form-data">
             @csrf
-
             <input type="text" name="title" id="title" class="custom-input" placeholder="Deneyeminize bir başlık verin" required>
-
             <textarea name="description" id="description" minlength="270" class="custom-input" placeholder="Lütfen bizimle deneyiminizi paylaşın..." required></textarea>
             <div class="char-counter"><span id="char-count">0</span> karakter </div>
-
             <div class="file-upload-box mt-3">
                 <input type="file" name="files[]" id="files" accept=".jpg,.jpeg,.png,.webp,.pdf" multiple style="display: none;">
                 <label for="files" class="btn-upload">+ Görsel/PDF Ekle</label>
                 <div id="file-preview" class="mt-3"></div>
             </div>
-
+            <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" value="1" id="confirmationCheckbox">
+                <label class="form-check-label" for="confirmationCheckbox">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#infoModal">Yukarıdaki koşulları anladım ve gerekli belgeleri yükleyeceğimi onaylıyorum.</a>
+                </label>
+            </div>
             <button type="submit" class="btn-next">Devam Et →</button>
         </form>
     </div>
 </div>
 
-<script>
-    const descriptionInput = document.getElementById('description');
-    const charCount = document.getElementById('char-count');
+<!-- Modal -->
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">Onaylamadan Devam Edemezsiniz</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                Deneyim girişi yapmadan önce lütfen aşağıdaki maddeyi dikkatlice okuyunuz ve onaylayınız.<br><br>
+                Deneyimlerinizin sistemimizde yayınlanabilmesi için girmiş olduğunuz çalışma dönemine ait geçerli bir belge sunmanız gerekmektedir.<br><br>
+                <ul>
+                    <li><strong>Sigortalı çalışma durumunda:</strong> SGK hizmet dökümü veya benzeri resmi belge.</li>
+                    <li><strong>Sigortasız çalışma durumunda:</strong> İşveren yazısı, maaş bordrosu, iş yeri belgesi, görsel materyal vb.</li>
+                </ul>
+                Belirtilen belgelerin yüklenmemesi durumunda deneyiminiz yayınlanmayacaktır.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    descriptionInput.addEventListener('input', function () {
-        const typed = 0 + this.value.length;
-        charCount.textContent = typed;
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('description').addEventListener('input', function () {
+        document.getElementById('char-count').textContent = this.value.length;
+    });
+
+    document.getElementById('experienceForm').addEventListener('submit', function (e) {
+        if (!document.getElementById('confirmationCheckbox').checked) {
+            e.preventDefault();
+            new bootstrap.Modal(document.getElementById('infoModal')).show();
+        }
     });
 
     document.getElementById('files').addEventListener('change', function (e) {
@@ -300,8 +334,6 @@
             wrapper.appendChild(removeBtn);
             previewArea.appendChild(wrapper);
         });
-
-        // reset input to allow re-selection
 
         function slugify(str) {
             return str.toString().toLowerCase()

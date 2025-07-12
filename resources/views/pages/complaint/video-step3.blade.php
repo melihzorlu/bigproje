@@ -5,7 +5,9 @@
     <title>Firma Seç</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap --><!-- Bootstrap JS ve Popper.js (modal için gerekli) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -66,6 +68,67 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
+        .file-upload-box {
+            margin-top: 30px;
+            border: 2px dashed #a58fff;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .btn-upload {
+            background: #7f67f8;
+            color: #fff;
+            padding: 8px 25px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        #file-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .preview-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+
+        .preview-item img, .file-box {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            text-align: center;
+            line-height: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
         @media (max-width: 768px) {
             .experience-container {
                 flex-direction: column;
@@ -102,7 +165,7 @@
         <div class="form-box">
             <h4 class="mb-4 text-center">Hangi firmayla sorun yaşadınız?</h4>
 
-            <form method="POST" action="{{ route('complaints.video.complete', $complaint->id) }}">
+            <form method="POST" action="{{ route('complaints.video.complete', $complaint->id) }}" enctype="multipart/form-data">
                 @csrf
 
                 {{-- Firma Seçimi --}}
@@ -155,10 +218,44 @@
                     </div>
                 </div>
 
+                {{-- Dosya Yükleme Alanı --}}
+                <div class="file-upload-box">
+                    <input type="file" name="files[]" id="files" accept=".jpg,.jpeg,.png,.webp,.pdf" multiple style="display: none;">
+                    <label for="files" class="btn-upload">+ Görsel/PDF Ekle</label>
+                    <div id="file-preview" class="mt-3"></div>
+                </div>
+                <div class="form-check mt-4">
+                    <input class="form-check-input" type="checkbox" id="approvalCheckbox" required>
+                    <label class="form-check-label" for="approvalCheckbox" data-bs-toggle="modal" data-bs-target="#approvalModal">
+                        Yukarıdaki koşulları anladığımı ve gerekli belgeleri yükleyeceğimi onaylıyorum.
+                    </label>
+                </div>
                 <div class="text-end mt-4">
                     <button type="submit" class="btn btn-success">Tamamla</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="approvalModalLabel">Deneyim Girişi Öncesi Bilgilendirme</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <p>Deneyim girişi yapmadan önce lütfen aşağıdaki maddeyi dikkatlice okuyunuz ve onaylayınız:</p>
+                <ul>
+                    <li>Deneyimlerinizin sistemimizde yayınlanabilmesi için girmiş olduğunuz çalışma dönemine ait geçerli bir belge sunmanız gerekmektedir.</li>
+                    <li><strong>Sigortalı çalışma durumunda:</strong> İlgili döneme ait SGK hizmet dökümü veya benzeri resmi bir sigortalılık belgesi yüklemeniz zorunludur.</li>
+                    <li><strong>Sigortasız çalışma durumunda:</strong> Çalıştığınızı kanıtlayan (işveren yazısı, maaş bordrosu, işyerine ait antetli belge, çalışma ortamına ait görsel materyaller vb.) niteliğinde bir belge veya fotoğraf yüklemeniz gerekmektedir.</li>
+                </ul>
+                <p>Belirtilen belgelerin yüklenmemesi durumunda, girmiş olduğunuz deneyim sistemimiz tarafından yayınlanmayacaktır.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Anladım</button>
+            </div>
         </div>
     </div>
 </div>
@@ -198,6 +295,46 @@
 
         if (companySelect.value && companySelect.value !== 'new') {
             companySelect.dispatchEvent(new Event('change'));
+        }
+
+        // Dosya yükleme ve önizleme
+        const filesInput = document.getElementById('files');
+        const previewArea = document.getElementById('file-preview');
+
+        filesInput.addEventListener('change', function () {
+            previewArea.innerHTML = '';
+            const files = Array.from(this.files);
+            files.forEach((file, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.classList.add('preview-item');
+
+                const removeBtn = document.createElement('button');
+                removeBtn.classList.add('remove-btn');
+                removeBtn.innerHTML = '&times;';
+                removeBtn.onclick = () => wrapper.remove();
+
+                if (file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    wrapper.appendChild(img);
+                } else {
+                    const fileBox = document.createElement('div');
+                    fileBox.className = 'file-box';
+                    fileBox.innerText = file.name.split('.').pop().toUpperCase();
+                    wrapper.appendChild(fileBox);
+                }
+
+                wrapper.appendChild(removeBtn);
+                previewArea.appendChild(wrapper);
+            });
+        });
+    });
+
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const checkbox = document.getElementById('approvalCheckbox');
+        if (!checkbox.checked) {
+            e.preventDefault();
+            alert("Lütfen onay kutusunu işaretleyiniz.");
         }
     });
 </script>
