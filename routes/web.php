@@ -97,7 +97,38 @@ Route::post('/feedback/send', [FeedbackController::class, 'send'])->name('feedba
 // SOSYAL GİRİŞ
 Route::get('/auth/{provider}', [SocialAuthController::class, 'redirect'])->name('social.redirect');
 Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'])->name('social.callback');
+Route::get('/branches/by-company/{company}', function (\App\Models\Company $company) {
+    return $company->branches()->select('id', 'name', 'address')->get();
+});
 
+// routes/web.php
+
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+
+Route::get('sifremi-unuttum', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('sifremi-unuttum', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+Route::get('sifre-sifirla/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('sifre-sifirla', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+use App\Http\Controllers\ProfileController;
+Route::prefix('profilim')->middleware(['auth'])->group(function () {
+    Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/deneyimlerim', [ProfileController::class, 'experiences'])->name('profile.experiences');
+    Route::get('/yorumlarim', [ProfileController::class, 'comments'])->name('profile.comments');
+});
+
+use App\Http\Controllers\CommentController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/complaints/{id}/comment', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/comments/{id}/reply', [CommentController::class, 'reply'])->name('comments.reply');
+    Route::post('/comments/{id}/like', [CommentController::class, 'like'])->name('comments.like');
+    Route::post('/comments/{id}/report', [CommentController::class, 'report'])->name('comments.report');
+    Route::post('/comments/{id}/moderate', [CommentController::class, 'moderate'])->name('comments.moderate'); // admin yetkisi gerekli
+});
+Route::get('/branches/by-company/{id}', [BranchController::class, 'getBranches']);
 // MIGRATE ÇALIŞTIR
 Route::get('/run-migrate', function () {
     try {
