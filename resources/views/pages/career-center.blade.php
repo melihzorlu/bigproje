@@ -4,87 +4,107 @@
 
 @section('content')
 
-    <!-- Kapsayıcı -->
-    <section class="career-wrapper">
+    <section class="pt-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <!-- Görsel (Solda) -->
+                <div class="col-lg-5 text-center mb-4 mb-lg-0">
+                    <img src="{{ asset('images/career-center1.svg') }}" alt="Görsel" class="img-fluid" style="max-width: 100%; height: auto;">
+                </div>
 
-        <!-- Hero Bölüm -->
-        <section class="career-hero text-white text-center d-flex align-items-center justify-content-center">
-            <div class="container">
-                <h1>Kariyerinizi Bir Sonraki Seviyeye Taşıyın</h1>
-                <p class="lead">Uzman destek hizmetleriyle iş hayatına hazırlanın.</p>
-            </div>
-        </section>
-
-        <!-- Genel Bilgilendirme -->
-        <section class="career-section">
-            <div class="container">
-                <div class="row align-items-center gy-4">
-                    <div class="col-md-6">
-                        <img src="{{ asset('images/career-center1.svg') }}" class="img-fluid rounded" alt="Uzman Destek">
-                    </div>
-                    <div class="col-md-6">
-                        <h2 class="section-title">Uzman Destek Hizmetlerimiz</h2>
-                        <p>
-                            Kariyer Geliştirme Merkezimizde, birebir İK kariyer danışmanlarımızla profesyonel CV hazırlama, LinkedIn profil güncelleme ve demo mülakatlarla size özel rehberlik sunuyoruz.
-                        </p>
-                        <p>
-                            İş görüşmelerinde güçlü ve eksik yönlerinizi tespit ederek, kariyer yolculuğunuzda güvenle ilerlemenizi sağlıyoruz.
-                        </p>
-                    </div>
+                <!-- Yazı (Ortalanmış Şekilde Sağda) -->
+                <div class="col-lg-7 d-flex flex-column align-items-center text-center">
+                    <h2 class="fw-bold text-secondary mb-4" style="font-size: 26px; max-width: 600px;">
+                        Kariyerinizi Bir Sonraki Seviyeye Taşıyın: <br> Uzman Destek Hizmetlerimiz
+                    </h2>
+                    <br>
+                    <p class="text-secondary" style="font-size: 18px; line-height: 1.7; max-width: 600px;">
+                        Kariyer Geliştirme Merkezimizde, iş arama sürecinizde size kapsamlı destek sunuyoruz.
+                        İnsan Kaynakları (İK) kariyer danışmanlarımızla birebir çalışarak, demo İK görüşmeleriyle sunum yapma,
+                        profesyonel CV hazırlama, LinkedIn hesabınızı güncelleme ve daha fazlası gibi konularda size rehberlik ediyoruz.
+                    </p>
+                    <p class="text-secondary mt-4" style="font-size: 18px; line-height: 1.7; max-width: 600px;">
+                        İK Kariyer danışmanlarımızla yapacağınız birebir iş mülakatları sayesinde, bu süreçteki güçlü ve eksik yönlerinizi belirliyor,
+                        daha önceki iş görüşmelerinden neden sonuç alamadığınıza dair detaylı bir rapor sunuyoruz.
+                        Eksik yanlarınızla ilgili belirlenen alanlarda kendinizi geliştirmenizi sağlayarak başarıya ulaşmanız için yol gösteriyoruz.
+                    </p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- CV Hazırlama -->
-        <section id="cv-hazirlama" class="career-section alt-bg">
-            <div class="container">
-                <div class="row align-items-center gy-4 flex-md-row-reverse">
-                    <div class="col-md-6">
-                        <img src="{{ asset('images/career-center2.svg') }}" class="img-fluid rounded" alt="CV Hazırlama">
-                    </div>
-                    <div class="col-md-6">
-                        <h2 class="section-title">Profesyonel CV Hazırlama ve Geliştirme</h2>
-                        <p>
-                            İlk izlenim her şeydir. Danışmanlarımız modern ve etkili bir CV hazırlamanız için güçlü yönlerinizi ön plana çıkararak eksiklerinizi giderme konusunda size birebir destek verir.
-                        </p>
-                    </div>
+
+
+    <section class="py-3 bg-light">
+        <div class="container">
+            <div class="row align-items-center justify-content-center flex-lg-row-reverse">
+                <!-- Görsel (Sağda) -->
+                <div class="col-lg-5 text-center mb-4 mb-lg-0">
+                    <img src="{{ asset('images/career-center-2.svg') }}" alt="Görsel" class="img-fluid" style="max-width: 100%; height: auto;">
+                </div>
+
+                <!-- Yazı (Ortalanmış Şekilde Solda) -->
+                <div class="col-lg-7 d-flex flex-column align-items-center text-center">
+                    <h2 class="fw-bold text-secondary mb-4" style="font-size: 26px; max-width: 600px;">
+                        Profesyonel CV Hazırlama ve Geliştirme
+                    </h2>
+                    <br>
+                    <p class="text-secondary" style="font-size: 18px; line-height: 1.7; max-width: 600px;">
+                        İlk izlenim her şeydir! İK Kariyer danışmanlarımız, sizi en iyi şekilde temsil eden, modern ve etkili bir CV hazırlamanız için size birebir rehberlik eder. Eksiklerinizi belirler, güçlü yönlerinizi vurgular ve dikkat çekici bir CV oluşturmanızda
+                        size destek olurlar.
+                    </p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Demo Mülakat -->
-        <section id="ik-demo-mulakat" class="career-section">
-            <div class="container">
-                <div class="row align-items-center gy-4">
-                    <div class="col-md-6">
-                        <img src="{{ asset('images/career-center3.svg') }}" class="img-fluid rounded" alt="Demo Mülakat">
-                    </div>
-                    <div class="col-md-6">
-                        <h2 class="section-title">İK Kariyer Danışmanlarımız ile Demo Mülakat</h2>
-                        <p>
-                            Gerçek mülakatlar öncesi prova yapma imkanı sunuyoruz. Demo mülakat sonrası detaylı geri bildirim ile performansınızı artırıyor ve özgüven kazandırıyoruz.
-                        </p>
-                    </div>
+    <section class="py-3 bg-light">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <!-- Görsel (Solda) -->
+                <div class="col-lg-5 text-center mb-4 mb-lg-0">
+                    <img src="{{ asset('images/career-center-3.svg') }}" alt="Görsel" class="img-fluid" style="max-width: 100%; height: auto;">
+                </div>
+
+                <!-- Yazı (Ortalanmış Şekilde Sağda) -->
+                <div class="col-lg-7 d-flex flex-column align-items-center text-center">
+                    <h2 class="fw-bold text-secondary mb-4" style="font-size: 26px; max-width: 600px;">
+                        İK Kariyer Danışmanlarımız ile Demo Mülakat Gerçekleştirme
+                    </h2>
+                    <br>
+                    <p class="text-secondary" style="font-size: 18px; line-height: 1.7; max-width: 600px;">
+                        Gerçek bir mülakat deneyimi yaşamadan önce prova yapmak ister misiniz? İK Kariyer danışmanlarımızla birebir demo
+                        mülakatlar gerçekleştirerek, gerçek mülakat ortamına hazırlanma şansı bulacaksınız. Bu sayede, mülakat kaygınızı
+                        azaltacak, eksiklerinizi görecek ve performansınızı artıracaksınız. İK Kariyer danışmanlarımız, demo mülakat sonrası size detaylı geri bildirimde bulunarak gelişim alanlarınızı net bir şekilde belirlemenize yardımcı olur.
+                    </p>
+
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- LinkedIn -->
-        <section id="linkedin-profil-guncelleme" class="career-section alt-bg">
-            <div class="container">
-                <div class="row align-items-center gy-4 flex-md-row-reverse">
-                    <div class="col-md-6">
-                        <img src="{{ asset('images/career-center4.svg') }}" class="img-fluid rounded" alt="LinkedIn Güncelleme">
-                    </div>
-                    <div class="col-md-6">
-                        <h2 class="section-title">Profesyonel LinkedIn Hesap Güncelleme</h2>
-                        <p>
-                            LinkedIn profilinizin profesyonel görünmesi, doğru anahtar kelimelerle iş fırsatlarına ulaşmanızda büyük rol oynar. Danışmanlarımız sizinle birlikte bu süreci yönetir.
-                        </p>
-                    </div>
+    <section class="pb-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center justify-content-center flex-lg-row-reverse">
+                <!-- Görsel (Sağda) -->
+                <div class="col-lg-5 text-center mb-4 mb-lg-0">
+                    <img src="{{ asset('images/career-center-4.svg') }}" alt="Görsel" class="img-fluid" style="max-width: 100%; height: auto;">
+                </div>
+
+                <!-- Yazı (Ortalanmış Şekilde Solda) -->
+                <div class="col-lg-7 d-flex flex-column align-items-center text-center">
+                    <h2 class="fw-bold text-secondary mb-4" style="font-size: 26px; max-width: 600px;">
+                        Profesyonel LinkedIn Hesap Güncelleme
+                    </h2>
+                    <br>
+                    <p class="text-secondary" style="font-size: 18px; line-height: 1.7; max-width: 600px;">
+                        Günümüz iş dünyasında LinkedIn, profesyonel kimliğinizin ve kariyer ağınızın anahtarıdır. İK Kariyer danışmanlarımız, LinkedIn profilinizi en profesyonel şekilde güncellemeyi, anahtar kelimelerle optimize etmeyi ve potansiyel işverenlerin dikkatini çekecek bir profil oluşturmanız için size birebir rehberlik eder. Böylece kariyer fırsatlarını kaçırmaz ve doğru bağlantılara ulaşırsınız.
+                    </p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
+
 
         <!-- Üyelik Planları -->
         <section class="career-section plans-section text-center">

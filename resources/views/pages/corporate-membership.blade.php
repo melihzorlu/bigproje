@@ -66,10 +66,12 @@
                     </p>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <div class="shadow rounded p-2 bg-white">
+                    <div class="shadow rounded p-2 bg-white" style="max-width: 85%; margin: 0 auto;">
                         <img src="{{ asset('images/reklam-alani.svg') }}" alt="Reklam Alanı Görseli" class="img-fluid rounded" style="max-width: 75%; height: auto;">
                     </div>
                 </div>
+
+
             </div>
         </div>
     </section>
@@ -153,6 +155,27 @@
                 </div>
                 <div class="col-lg-6 text-center">
                     <img src="{{ asset('images/kurumsal6.svg') }}" alt="Hukuki Destek Görseli" class="img-fluid" style="max-width: 75%; height: auto;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-2 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-center">
+                    <img src="{{ asset('images/kurumsal7.svg') }}" alt="İndirim Fırsatı Görseli" class="img-fluid" style="max-width: 75%; height: auto;">
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <img src="{{ asset('images/pro-icon.svg') }}" alt="Pro İkon" style="height: 100px;">
+                    </div>
+                    <h2 class="text-secondary fw-bold" style="font-size: 25px;">
+                        Gelişim Noktasında İndirim Fırsatı
+                    </h2>
+                    <p class="text-secondary mt-4" style="font-size: 19px;">
+                        Pro üyeliğiniz sayesinde yıl boyunca düzenleyeceğiniz şirket etkinliklerinde Gelişim Noktası size %20 indirim sağlıyor. Bu avantajla, şirketinizin iç işleyişini güçlendirecek verilere ulaşırken, aynı zamanda markanızın bilinirliğini artıracak ve büyüme hedeflerinize ulaşmanıza yardımcı olacaksınız.
+                    </p>
                 </div>
             </div>
         </div>
